@@ -31,7 +31,7 @@ Unordered Map Questions:
 Question 1
 ----------
 
-You have an Unordered Map with 10 buckets. Explain your implementation of the `find()` function and how it changes when the only elements present in your Unordered Map are multiples of 10, 5, 2, or any natural number. Let there be n elements in your Unordered Map. 
+You have an Unordered Map with 10 buckets. Explain your implementation of the `find()` function and how it changes when the only elements present in your Unordered Map are multiples of 10, 5, 2, or any natural number. Let there be `n` elements in your Unordered Map. 
 
 Question 2
 ----------
