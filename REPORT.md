@@ -81,4 +81,4 @@ In the multi-list implementation, we stored an individual list in each bucket. B
 
 What is the runtime of the `find()` function given there is a binary search tree (on the hash) at every bucket? How might this implementation complicate the iterators classes?
 
-What is the runtime of the `find()` function given there is another unordered map at every bucket of the first. Assume that the bucket count of the second unordered map is large enough that every element is in its own bucket. Is this implementation better than a single unordered map? Explain why or why not.
+What is the runtime of the `find()` function given there is another unordered map at every bucket of the first. Assume that the bucket count of the second unordered map is large enough that every element is in its own bucket. Is this implementation better than a single, larger unordered map? Explain why or why not.
