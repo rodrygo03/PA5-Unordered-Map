@@ -11,7 +11,7 @@ Priority Queue Questions:
 
 Question 1
 ----------
-Explain the Process of `Uphead` and `Downhead` with respect to the `insert()` and `remove()` functions. How do these functions help keep the internal heap perfectly balanced? 
+Explain the Process of `Uphead` and `Downhead` with respect to the `push()` and `pop()` functions. How do these functions help keep the internal heap perfectly balanced? 
 
 If you have 1000 elements (numbered 0...999) that you want to insert into a heap, what permutation of these elements will insert into the heap in the shortest amount of time? What permutations will insert in the most amount of time? Explain your reasoning. 
 
@@ -23,7 +23,11 @@ What is the runtime of `Upheap` given a doubly linked list? The list has a point
 
 Question 3
 ----------
-Programming assignment 2 was on sorting vectors. How can we sort a vector from lowest to highest using a minimum priority queue? Describe the implementation and the runtime. Compare its runtime and the number of comparisons to `insertion sort` and `quick sort`. Let the number of elements in the vector be `n`.
+Programming assignment 2 was on sorting vectors. How can we sort a vector from lowest to highest using a minimum priority queue? Describe the implementation and the runtime. Let the number of elements in the vector be `n`. Compare its runtime and the number of comparisons to another comparison based algorithm. 
+
+Question 4
+----------
+Discuss the algorithm you used for `push()` and `pop()` operations. Describe an alternate implementation (For example, if you implemented it recursively, explain how you it could be written iteratively. If you did it iterativey, explain how you could have written in recursively). Analyze any differences in the time and space complexity that may exist between the two implementations (iterative and recursive).
 
 Unordered Map Questions:
 ========================
@@ -31,7 +35,7 @@ Unordered Map Questions:
 Question 1
 ----------
 
-You have an Unordered Map with 10 buckets. Explain your implementation of the `find()` function and how it changes when the only elements present in your Unordered Map are multiples of 10, 5, 2, or any natural number. Let there be `n` elements in your Unordered Map. 
+You have an Unordered Map with 10 buckets. Explain your implementation of the `find()` function and how its runtime changes when the only elements present in your Unordered Map are multiples of 10, 5, 2, or any natural number. Let there be `n` elements in your Unordered Map. How could you change the number of buckets to better suit each case.
 
 Question 2
 ----------
@@ -77,8 +81,8 @@ Why do the operations of these iterators require different instance fields with 
 Question 4
 ----------
 
-In the multi-list implementation, we stored an individual list in each bucket. But we can utilize other data structure in each bucket. What would be the runtime of the `find()` function given there is a linked list at every bucket? Let the number of elements in a bucket be `b`.
+In the multi-list implementation, we stored an individual list in each bucket. But we can utilize other data structure in each bucket. What would be the runtime of the `find()` function given there is a linked list at every bucket? Let the number of elements in a the unordered map be `n` and the number buckets be `b`.
 
-What is the runtime of the `find()` function given there is a binary search tree (on the hash) at every bucket? How might this implementation complicate the iterators classes?
+What is the runtime of the `find()` function given there is a binary search tree (on the hash) at every bucket?
 
-What is the runtime of the `find()` function given there is another unordered map at every bucket of the first. Assume that the bucket count of the second unordered map is large enough that every element is in its own bucket. Is this implementation better than a single, larger unordered map? Explain why or why not.
+What is the runtime of the `find()` function given there is another unordered map at every bucket of the first. Assume that the bucket count of the second unordered map is large enough that every element is in its own bucket. Is this implementation faster than a single, larger unordered map?
