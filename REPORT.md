@@ -13,7 +13,7 @@ Question 1
 ----------
 Explain the Process of `Uphead` and `Downhead` with respect to the `insert()` and `remove()` functions. How do these functions help keep the internal heap perfectly balanced? 
 
-If you have 1000 elements (numbered 0...999) that you want to insert into a heap, what permutation of these elements will insert into the heap in the shorted amount of time? What permutations will insert in the most amount of time? Explain your reasoning. 
+If you have 1000 elements (numbered 0...999) that you want to insert into a heap, what permutation of these elements will insert into the heap in the shortest amount of time? What permutations will insert in the most amount of time? Explain your reasoning. 
 
 Question 2
 ----------
