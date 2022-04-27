@@ -32,17 +32,17 @@ Discuss the algorithm you used for `push()` and `pop()` operations. Describe an 
 Unordered Map Questions:
 ========================
 
-Question 1
+Question 5
 ----------
 
 You have an Unordered Map with 10 buckets. Explain your implementation of the `find()` function and how its runtime changes when the only elements present in your Unordered Map are multiples of 10, 5, 2, or any natural number. Let there be `n` elements in your Unordered Map. How could you change the number of buckets to better suit each case.
 
-Question 2
+Question 6
 ----------
 
 Where are the `_size`, `_buckets[]`, `_head`, and `HashNodes` of our unordered map implementation stored (stack, heap, bss, text)? Explain the Copy and Move Operators and how each of these instance fields are copied/moved in these operators. 
 
-Question 3
+Question 7
 ----------
 
 If you implemented your unordered map using the single list, your iterator classes likely had the following instance fields:
@@ -78,7 +78,7 @@ class local_iterator {
 ```
 Why do the operations of these iterators require different instance fields with the different implementations? Specifically, the `operator++`.
 
-Question 4
+Question 8
 ----------
 
 In the multi-list implementation, we stored an individual list in each bucket. But we can utilize other data structure in each bucket. What would be the runtime of the `find()` function given there is a linked list at every bucket? Let the number of elements in a the unordered map be `n` and the number buckets be `b`.
