@@ -11,7 +11,7 @@ Priority Queue Questions:
 
 Question 1
 ----------
-Explain the Process of `Uphead` and `Downhead` with respect to the `push()` and `pop()` functions. How do these functions help keep the internal heap perfectly balanced? 
+Explain the Process of `Upheap` and `Downheap` with respect to the `push()` and `pop()` functions. How do these functions help keep the internal heap perfectly balanced? 
 
 If you have 1000 elements (numbered 0...999) that you want to insert into a heap, what permutation of these elements will insert into the heap in the shortest amount of time? What permutations will insert in the most amount of time? Explain your reasoning. 
 
