@@ -8,7 +8,7 @@ In this assignment, you will be parodying [`std::unordered_map`](https://en.cppr
 
 Download this code by running the following command in the directory of your choice:
 ```sh
-git clone https://github.tamu.edu/csce221/assignment-unordered-map.git && cd assignment-unordered-map
+git clone https://github.tamu.edu/csce221/assignment-unordered-map-spring2022.git && cd assignment-unordered-map-spring2022
 ```
 [OPTIONAL] Then set up CMake (if your editor does not do this for you):
 ```sh
