@@ -1,4 +1,5 @@
 #include "UnorderedMap.h"
+#include "hash_functions.h"
 
 #include <random>
 #include <limits>
@@ -34,35 +35,18 @@ struct first_character_hash  {
     }
 };
 
-struct polynomial_rolling_hash {
-    size_t operator() (std::string const & str) const {
-        const int b = 19;
-        const size_t m = 3298534883309ul;
-        
-        size_t hash = 0;
-        size_t pow = 1;
-
-        for(size_t i = 0; i < str.length(); i++) {
-            hash += str[i] * pow;
-            pow =  (pow * b) % m;
-        }
-
-        return hash;
-    }
-};
-
 enum class HashType {
     ZERO,
     FIRST_CHARACTER,
     POLYNOMIAL_ROLLING,
-    STD
+    FVN1A
 };
 
 struct hash_selector {
     zero_hash _zero_hash;
     first_character_hash _first_char_hash;
     polynomial_rolling_hash _poly_rolling_hash;
-    std::hash<std::string> _std_hash;
+    fvn1a_hash _fvn1a_hash;
     HashType _htype;
 
     public:
@@ -79,8 +63,8 @@ struct hash_selector {
                 return _first_char_hash(str);
             case HashType::POLYNOMIAL_ROLLING:
                 return _poly_rolling_hash(str);
-            case HashType::STD:
-                return _std_hash(str);
+            case HashType::FVN1A:
+                return _fvn1a_hash(str);
         }
 
         return 0;
@@ -111,8 +95,8 @@ HashType prompt_hash_type() {
             .type = HashType::POLYNOMIAL_ROLLING,
         },
         HashChoice {
-            .label = "STD Hash (Variant of FVN-1A)",
-            .type = HashType::STD,
+            .label = "FVN-1A",
+            .type = HashType::FVN1A,
         }
     };
 
