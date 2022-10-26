@@ -95,7 +95,7 @@ HashType prompt_hash_type() {
             .type = HashType::POLYNOMIAL_ROLLING,
         },
         HashChoice {
-            .label = "FVN-1A",
+            .label = "FNV-1A",
             .type = HashType::FNV1A,
         }
     };
