@@ -84,19 +84,20 @@ std::ostream & operator<<(std::ostream & o, Box<T> const & box) {
     return o << "BOX [" << (*box._ptr) << "]" << std::endl;
 }
 
-
-template<typename T>
-void std::swap(Box<T> const & lhs, Box<T> const & rhs) {
-    Box<T> t = std::move(lhs);
-    lhs = std::move(rhs);
-    rhs = std::move(t);
-}
-
-template<typename T>
-struct std::hash<Box<T>> {
-    std::hash<T> _hash;
-
-    size_t operator()(const Box<T> & box) const noexcept {
-        return _hash((*box));
+namespace std {
+    template<typename T>
+    void swap(Box<T> const & lhs, Box<T> const & rhs) {
+        Box<T> t = std::move(lhs);
+        lhs = std::move(rhs);
+        rhs = std::move(t);
     }
-};
+
+    template<typename T>
+    struct hash<Box<T>> {
+        std::hash<T> _hash;
+
+        size_t operator()(const Box<T> & box) const noexcept {
+            return _hash((*box));
+        }
+    };
+}
