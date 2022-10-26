@@ -46,7 +46,7 @@ struct hash_selector {
     zero_hash _zero_hash;
     first_character_hash _first_char_hash;
     polynomial_rolling_hash _poly_rolling_hash;
-    fvn1a_hash _fvn1a_hash;
+    fnv1a_hash _fvn1a_hash;
     HashType _htype;
 
     public:

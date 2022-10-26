@@ -13,8 +13,10 @@
 // Deterministic type generator
 #include "typegen.h"
 #include "UnorderedMap.h"
+#include "hash_functions.h"
 #include "map_assertions.h"
 #include "map_logic.h"
+#include "hash_codes.h"
 
 #define TEST(name) UTEST(UnorderedMap, name)
 
