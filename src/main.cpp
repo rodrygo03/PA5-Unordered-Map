@@ -39,14 +39,14 @@ enum class HashType {
     ZERO,
     FIRST_CHARACTER,
     POLYNOMIAL_ROLLING,
-    FVN1A
+    FNV1A
 };
 
 struct hash_selector {
     zero_hash _zero_hash;
     first_character_hash _first_char_hash;
     polynomial_rolling_hash _poly_rolling_hash;
-    fnv1a_hash _fvn1a_hash;
+    fnv1a_hash _fnv1a_hash;
     HashType _htype;
 
     public:
@@ -63,8 +63,8 @@ struct hash_selector {
                 return _first_char_hash(str);
             case HashType::POLYNOMIAL_ROLLING:
                 return _poly_rolling_hash(str);
-            case HashType::FVN1A:
-                return _fvn1a_hash(str);
+            case HashType::FNV1A:
+                return _fnv1a_hash(str);
         }
 
         return 0;
@@ -96,7 +96,7 @@ HashType prompt_hash_type() {
         },
         HashChoice {
             .label = "FVN-1A",
-            .type = HashType::FVN1A,
+            .type = HashType::FNV1A,
         }
     };
 
