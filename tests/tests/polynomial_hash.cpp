@@ -1,8 +1,6 @@
 #include "executable.h"
 
 TEST(polynomial_hash) {
-    Typegen t;
-
     polynomial_rolling_hash pHash;
     std::stringstream p_hash_stream(POLYNOMIAL_HASH);
     std::string s_text;

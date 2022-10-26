@@ -1,8 +1,6 @@
 #include "executable.h"
 
 TEST(fnv1a_hash) {
-    Typegen t;
-
     fnv1a_hash fHash;
     std::stringstream f_hash_stream(FNV1A_HASH);
     std::string s_text;
