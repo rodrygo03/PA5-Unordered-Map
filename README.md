@@ -8,11 +8,7 @@ In this assignment, you will be parodying [`std::unordered_map`](https://en.cppr
 
 Download this code by running the following command in the directory of your choice:
 ```sh
-git clone https://github.tamu.edu/csce221/assignment-unordered-map.git && cd assignment-unordered-map
-```
-[OPTIONAL] Then set up CMake (if your editor does not do this for you):
-```sh
-cmake -S . -B build
+git clone git@github.com:tamu-edu-students/leyk-csce221-assignment-unordered-map.git && cd leyk-csce221-assignment-unordered-map
 ```
 Open the code in your editor of choice. For instance, if you use VS Code:
 ```sh
@@ -659,7 +655,7 @@ In light of the difficulty of the project, you need only implement an `Unordered
 
 To run the tests, you need to rename [`main.cpp`](./src/main.cpp) or you need to rename the `int main` function within that file.
 
-Execute the following commands from the `assignment-unordered-map` folder to accomplish what you need:
+Execute the following commands from the `leyk-csce221-assignment-unordered-map` folder to accomplish what you need:
 
 **Build all of the tests**
 ```sh
