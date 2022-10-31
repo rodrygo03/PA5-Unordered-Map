@@ -8,11 +8,7 @@ In this assignment, you will be parodying [`std::unordered_map`](https://en.cppr
 
 Download this code by running the following command in the directory of your choice:
 ```sh
-git clone https://github.tamu.edu/csce221/assignment-unordered-map.git && cd assignment-unordered-map
-```
-[OPTIONAL] Then set up CMake (if your editor does not do this for you):
-```sh
-cmake -S . -B build
+git clone git@github.com:tamu-edu-students/leyk-csce221-assignment-unordered-map.git && cd leyk-csce221-assignment-unordered-map
 ```
 Open the code in your editor of choice. For instance, if you use VS Code:
 ```sh
@@ -24,7 +20,7 @@ code .
 
 ### Implement Unordered Map
 
-Fundamentally, the `UnorderedMap` is a lot like a `List<std::pair<Key, Value>>` (see [your past Programming Assignment](https://github.tamu.edu/csce221/assignment-list)). One problem with `List` was that accessing a particular element was very slow because we had to start at the beginning and walk our way through until we found the element. `UnorderedMap` solves this problem by maintaining `_buckets` which is an array of size `_bucket_count` containing pointers to `HashNode`s. These nodes are like Linked List nodes.
+Fundamentally, the `UnorderedMap` is a lot like a `List<std::pair<Key, Value>>` (see [your past Programming Assignment](https://github.com/tamu-edu-students/leyk-csce221-assignment-list)). One problem with `List` was that accessing a particular element was very slow because we had to start at the beginning and walk our way through until we found the element. `UnorderedMap` solves this problem by maintaining `_buckets` which is an array of size `_bucket_count` containing pointers to `HashNode`s. These nodes are like Linked List nodes.
 
 How does marking certain nodes grant an advantage to the `UnorderedMap`? Well, these nodes are marked because they mark the start of a new hash code within the map. A hash code is the result of running `_hash()` (the `Hash` function) on a `key`. We often want to map the hash codes to an index within the `_buckets` array to determine which bucket the `key` should be hashed to. This is done via the provided `_range_hash` helper function. The performance is best when each bucket is very small. The average number of nodes in the buckets of the `UnorderedMap` is called the `load_factor`. Typically, the number of buckets changes to ensure that the `load_factor` does not exceed the `max_load_factor` (by default `1.0`). You do not need to increase the number of buckets in this manner.
 
@@ -36,27 +32,36 @@ You are to implement the below `UnorderedMap` functions.
 
 `size_type _bucket(size_t code) const;` &ndash; Private Helper
 
-**Description:** Returns the index of the bucket for hash code `code`. You should consider utilizing the provided `_range_hash(size_type hash_code, size_type bucket_count)` function. You can call this `_bucket` function from within the other `_bucket` function, once you have a hash code for its `key`.
+**Description:** Returns the index of the bucket for hash code `code`. You should consider utilizing the provided `_range_hash(size_type hash_code, size_type bucket_count)` function. You can call this `_bucket` function from within the  `size_type _bucket(const Key &key)` function, once you have a hash code for its `key`.
 
 **Time Complexity:** Constant.
 
-**Used In:** `_bucket`, `_find_prev`, [`insert`](https://en.cppreference.com/w/cpp/container/unordered_map/insert)
+**Used In:** `_bucket`, `_find`, [`insert`](https://en.cppreference.com/w/cpp/container/unordered_map/insert)
 
 ----
 
 `size_type _bucket(const Key &key) const;` &ndash; Private Helper
 
-**Description:** Returns the index of the bucket for key `key`. Elements (if any) with keys equivalent to `key` are always found in this bucket.
+**Description:** Returns the index of the bucket for key `key`. Elements (if any) with keys equivalent to `key` are always found in this bucket. You can call this function from within the `size_type _bucket(const value_type &val)` function passing in the key value in `val` as the parameter.
 
 **Time Complexity:** Constant.
 
-**Used In:** `_insert_before`, `_erase_after`, [`bucket`](https://en.cppreference.com/w/cpp/container/unordered_map/bucket)
+**Used In:** `erase`, [`bucket`](https://en.cppreference.com/w/cpp/container/unordered_map/bucket)
+
+----
+`size_type _bucket(const value_type &val) const;` &ndash; Private Helper
+
+**Description:** Returns the index of the bucket for value_type `val`. Elements (if any) with keys equivalent to the key value in `val` are always found in this bucket.
+
+**Time Complexity:** Constant.
+
+**Used In:** `operator++`, [`insert`](https://en.cppreference.com/w/cpp/container/unordered_map/insert)
 
 ----
 
-`void _insert_before(size_type bucket, HashNode *node);` &ndash; Private Helper
+`void _insert_into_bucket(size_type bucket, value_type && value);` &ndash; Private Helper
 
-**Description:** Inserts `node` after the node stored in index `bucket` in the array of `_buckets`. If no such node exists, `node` replaces the old head by being inserted after `_head`. We then update the `_buckets` array to note that `_head` is now in `bucket`.
+**Description:** Inserts `node` at index `bucket` in the array of `_buckets` as the bucket head. If the global `_head` is empty or the bucket index of `_head` is greater than `value`'s bucket index, the inserted node also becomes the new `_head`.
 
 **Time Complexity:** Constant.
 
@@ -64,43 +69,23 @@ You are to implement the below `UnorderedMap` functions.
 
 ----
 
-`HashNode*& _bucket_begin(size_type bucket);` &ndash; Private Helper
+`HashNode* _find(size_type code, size_type bucket, const Key & key);` &ndash; Private Helper
 
-**Description:** Gets a reference to the `HashNode *` that starts the bucket `bucket`.
-
-**Time Complexity:** Constant.
-
-**Used In:** [`begin(size_type)`](https://en.cppreference.com/w/cpp/container/unordered_map/begin2)
-
-----
-
-`HashNode* _find_prev(size_type code, size_type bucket, const Key & key);` &ndash; Private Helper
-
-**Description:** Starts with the nodes in bucket `bucket` and iterates forward until the key matches `key`, returning the node just before the keys match. If no such match occurs, returns `nullptr`.
+**Description:** Starts with the nodes in bucket `bucket` and iterates forward until the key matches `key`, returning the node where the keys match. If no such match occurs, returns `nullptr`.
 
 **Time Complexity:** Average case: Constant, worst case: Linear in the size of the container.
 
-**Used In:** `_find_prev`, [`insert`](https://en.cppreference.com/w/cpp/container/unordered_map/insert)
+**Used In:** `_find`, [`insert`](https://en.cppreference.com/w/cpp/container/unordered_map/insert)
 
 ----
 
-`HashNode* _find_prev(const Key & key);` &ndash; Private Helper
+`HashNode* _find(const Key & key);` &ndash; Private Helper
 
-**Description:** Calls `_find_prev` with the `code` from the `_hash` and the `bucket` from the `_bucket` functions called on `key` and `code` respectively.
+**Description:** Calls `_find(size_type code, size_type bucket, const Key & key) ` with the `code` from the `_hash` and the `bucket` from the `_bucket` functions called on `key` and `code` respectively.
 
 **Time Complexity:** Average case: Constant, worst case: Linear in the size of the container.
 
 **Used In:** [`find`](https://en.cppreference.com/w/cpp/container/unordered_map/find), [`erase`](https://en.cppreference.com/w/cpp/container/unordered_map/erase)
-
-----
-
-`void _erase_after(HashNode * prev);` &ndash; Private Helper
-
-**Description:** Removes the node after `prev` updating the set of `_buckets` as necessary.
-
-**Time Complexity:** Constant.
-
-**Used In:** `erase`
 
 ----
 
@@ -223,6 +208,34 @@ Invalidates any references, pointers, or iterators referring to contained elemen
 **Test Names:** *used frequently*
 
 **Link:** https://en.cppreference.com/w/cpp/container/unordered_map/bucket_count
+
+----
+
+`const_iterator cbegin();`
+
+**Description:** Returns a const_iterator to the first element of the `UnorderedMap`.
+
+If the `UnorderedMap` is empty, the returned iterator will be equal to [`end()`](https://en.cppreference.com/w/cpp/container/unordered_map/end). 
+
+**Time Complexity:** Constant.
+
+**Test Names:** *iterator*
+
+**Link:** https://en.cppreference.com/w/cpp/container/unordered_map/begin
+
+----
+
+`const_iterator cend();`
+
+**Description:** Returns a const_iterator to the element following the last element of the `UnorderedMap`.
+
+This element acts as a placeholder; attempting to access it results in undefined behavior. 
+
+**Time Complexity:** Constant.
+
+**Test Names:** *iterator*
+
+**Link:** https://en.cppreference.com/w/cpp/container/unordered_map/end
 
 ----
 
@@ -407,7 +420,7 @@ This is an iterator to all of the nodes within the `UnorderedMap`. It should jum
 
 ----
 
-`explicit iterator(HashNode *ptr) noexcept;` &ndash; Private Helper
+`explicit basic_iterator(UnorderedMap const * map, HashNode *ptr) noexcept;` &ndash; Private Helper
 
 **Description:** Creates an `iterator` to the key-value pair belonging to the `HashNode` pointed to by `ptr`.
 
@@ -415,9 +428,9 @@ This is an iterator to all of the nodes within the `UnorderedMap`. It should jum
 
 ----
 
-`iterator();`
+`basic_iterator();`
 
-**Description:** Creates an `iterator` by default, where the pointer beloning to the iterator is `nullptr`.
+**Description:** Creates a `basic_iterator` by default, where the pointer beloning to the iterator is `nullptr`.
 
 **Time Complexity:** Constant.
 
@@ -445,7 +458,7 @@ This is an iterator to all of the nodes within the `UnorderedMap`. It should jum
 
 ----
 
-`iterator &operator++();` &ndash; Prefix Increment
+`basic_iterator &operator++();` &ndash; Prefix Increment
 
 **Description:** Change the `_node` to be the next `_node` in the `UnorderedMap`, even if that node is in a different bucket. Return a reference to the iterator after the change.
 
@@ -455,7 +468,7 @@ This is an iterator to all of the nodes within the `UnorderedMap`. It should jum
 
 ----
 
-`iterator operator++(int);` &ndash; Postfix Increment
+`basic_iterator operator++(int);` &ndash; Postfix Increment
 
 **Description:** Change the `_node` to be the next `_node` in the `UnorderedMap`, even if that node is in a different bucket, but return a copy of the `iterator` from before the change.
 
@@ -465,9 +478,9 @@ This is an iterator to all of the nodes within the `UnorderedMap`. It should jum
 
 ----
 
-`bool operator==(const iterator &other) const noexcept;`
+`bool operator==(const basic_iterator &other) const noexcept;`
 
-**Description:** Test whether two `iterator`s refer to the same `HashNode`.
+**Description:** Test whether two `basic_iterator`s refer to the same `HashNode`.
 
 **Time Complexity:** Constant.
 
@@ -475,9 +488,9 @@ This is an iterator to all of the nodes within the `UnorderedMap`. It should jum
 
 ----
 
-`bool operator!=(const iterator &other) const noexcept;`
+`bool operator!=(const basic_iterator &other) const noexcept;`
 
-**Description:** Test whether two `iterator`s refer to different `HashNode`s.
+**Description:** Test whether two `basic_iterator`s refer to different `HashNode`s.
 
 **Time Complexity:** Constant.
 
@@ -491,7 +504,7 @@ This is an iterator to the nodes within a single bucket of the `UnorderedMap`.
 
 ----
 
-`explicit local_iterator(UnorderedMap & map, HashNode *ptr, size_type bucket) noexcept;` &ndash; Private Helper
+`explicit local_iterator( HashNode * node ) noexcept;` &ndash; Private Helper
 
 **Description:** Creates a `local_iterator` to the key-value pair belonging to the `HashNode` pointed to by `ptr` limited to the bucket `bucket` within `map`.
 
@@ -569,6 +582,60 @@ This is an iterator to the nodes within a single bucket of the `UnorderedMap`.
 
 ----
 
+`polynomial_rolling_hash size_t operator() (std::string const & str) const;`
+
+**Description:** Returns the hash code resulting from hashing `str` using a polynomial rolling hash algorithm. To pass our test cases, you will need to have `b` be `19` and `m` be `3298534883309ul`.
+
+**Time Complexity:** Linear in the size of the string being hashed.
+
+**Test Names:** *polynomial_hash*
+
+**Link:** https://en.wikipedia.org/wiki/Rolling_hash
+
+**Pseudocode:**
+
+```
+polynomial_rolling_hash(string str) :
+    hash = 0
+    p = 1
+    for char in str do:
+        hash += char * p
+        p = (p * b) % m
+    return hash
+```
+
+----
+
+`fnv1a_hash size_t operator() (std::string const & str) const;`
+
+**Description:** Returns the hash code resulting from hashing `str` using the fnv1a algorithm. To pass our test cases, you will need to have the `prime` be `0x00000100000001B3` and the `basis` be `0xCBF29CE484222325`.
+
+**Time Complexity:** Linear in the size of the string being hashed.
+
+**Test Names:** *fnv1a_hash*
+
+**Link:** https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
+
+**Pseudocode:**
+
+```
+fnv1a(string str) :
+    hash = basis
+    for char in str do:
+        hash = hash XOR char
+        hash = hash * prime
+    return hash
+```
+
+In cpp, the XOR (exclusive or) operator is `^`. You can use it similarly to a mathematical operator such as `+`. For example
+
+```
+int a = 1; // bit representation 00000001
+int b = 9; // bit representation 00001001
+cout << (a ^ b) << endl; // the result is 8 (bit representation 00001000).
+```
+----
+
 #### Further Reading
 - [Hashing Data Structure - GeeksforGeeks](https://www.geeksforgeeks.org/hashing-data-structure/)
 - [Hashing (Separate Chaining) - GeeksforGeeks](https://www.geeksforgeeks.org/hashing-set-2-separate-chaining/)
@@ -588,7 +655,7 @@ In light of the difficulty of the project, you need only implement an `Unordered
 
 To run the tests, you need to rename [`main.cpp`](./src/main.cpp) or you need to rename the `int main` function within that file.
 
-Execute the following commands from the `assignment-unordered-map` folder to accomplish what you need:
+Execute the following commands from the `leyk-csce221-assignment-unordered-map` folder to accomplish what you need:
 
 **Build all of the tests**
 ```sh
@@ -622,7 +689,7 @@ The first command builds the tests, the next enters the folder where the tests w
 To ensure the correctness of an insert, the bucket iterator has to be fully implemented so the test cases can compare the insertion location against the correct location. Completing `insert`, `bucket_iterator`, and the required helpers is fairly involved. We suggest the following order:
  
 1. `constructor`: complete `bucket_count`, `constructor`, and `size`.
-2. `insert_and_global_iterator`: complete `begin`, `end`, `insert`, `iterator::operator++(int)`, `iterator::operator->()`, and `iterator::operator!=`. (You may wish to complete the `_insert_before`, `_bucket`, and `_find_prev` helpers for `insert`.)
+2. `insert_and_global_iterator`: complete `begin`, `end`, `insert`, `iterator::operator++(int)`, `iterator::operator->()`, and `iterator::operator!=`. (You may wish to complete the `_insert_insert_into_bucket`, `_bucket`, and `_find` helpers for `insert`.)
 3. `insert_and_local_iterator`: complete `bucket_size`, `begin(bucket)`, `end(bucket)`, `local_iterator::operator++(int)`, `local_iterator::operator!=`, and `local_iterator::operator->()`.
  
 After passing these tests, you should be able to selectively complete the remaining methods.
@@ -634,7 +701,7 @@ After passing these tests, you should be able to selectively complete the remain
 1. Zero Hash: A hash function which always maps to zero.
 2. First Character Hash: A hash function which returns the first element in the string.
 3. Polynomial Rolling Hash: A variant of the polynomial hash which appears in the lecture notes. (Roughly based on a linear congruential generator.)
-4. STD Hash: The standard library hash. GCC uses a variant of FVN-1A.
+4. FNV1a: GCC uses a variant of FVN-1A.
 
 This function will be applied to unique keys consisting of randomly generated animals:
 
@@ -652,5 +719,7 @@ The program will calculate the load-factor, load-variance, and plot the proporti
 
 Submit the following file **and no other files** to Gradescope:
 - [ ] [`UnorderedMap.h`](src/UnorderedMap.h)
+- [ ] [`hash_functions.h`](src/hash_functions.h)
+- [ ] [`hash_functions.cpp`](src/hash_functions.cpp)
 - [ ] [`primes.h`](src/primes.h)
 - [ ] [`primes.cpp`](src/primes.cpp)

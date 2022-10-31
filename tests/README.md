@@ -1,7 +1,7 @@
-Lists - Comprehensive Test Suite
+Unordered Map - Comprehensive Test Suite
 ====================================
 
-This is the test suite for the third assignment - List. The test suite contains TODO tests and is meant to be comprehensive and to test the full distribution of behavior. It tests for both correctness and efficiency. In particular, it ensures that students don't preform unnecessary memory allocations and properly employ move semantics. This can be critical in applications with performance constrains.
+This is the test suite for the third assignment - List. The test suite contains 19 tests and is meant to be comprehensive and to test the full distribution of behavior. It tests for both correctness and efficiency. In particular, it ensures that students don't preform unnecessary memory allocations and properly employ move semantics. This can be critical in applications with performance constrains.
 
 In the design of the test suite, each test utilized as few methods from student code as possible. Each test creates a separate executable. This allows students to test frequently and get feedback quickly. Often, a baseline set of methods is needed to ensure the sorted vector is in the correct state. 
 
