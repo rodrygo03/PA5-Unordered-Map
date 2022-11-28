@@ -62,7 +62,7 @@ Why do these two different iterators require different instance fields? Make sur
 Question 8
 ----------
 
-In our implementation, we stored an individual list in each bucket. But we can utilize other data structures in each bucket. What would be the runtime of the `find()` function given there is a linked list at every bucket (our implementation)? Let the number of elements in a the unordered map be `n` and the number buckets be `b`. Additionally, assume that our hash function evenly distributes the `n` elemens among the `b` buckets.
+In our implementation, we stored an individual list in each bucket. But we can utilize other data structures in each bucket. What would be the runtime of the `find()` function given there is a linked list at every bucket (our implementation)? Let the number of elements in a the unordered map be `n` and the number buckets be `b`. Additionally, assume that our hash function evenly distributes the `n` elements among the `b` buckets.
 
 What is the runtime of the `find()` function given there is a binary search tree at every bucket (assuming the binary search tree is balanced)?
 
