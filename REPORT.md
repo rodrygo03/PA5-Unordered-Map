@@ -37,7 +37,7 @@ You have an Unordered Map with `b` buckets. Explain your implementation of the `
 
 For example, let's say that our unordered map contains 10 buckets. What will each bucket look like if every element inserted has a hash value that is a multiple of 10? What if each hash value is a multiple of 5? A multiple of 2? Use these examples to formulate a general answer for the runtime of `find()` in terms of `n` and `c`.
 
-How could we change the `_hash` data member to improve the performance of the `find()` function given the same elements as input? Alternatively, how could we change `_bucket_count` to see a similar improvement? Think about how `_bucket()` is implemented and how you initialized `_bucket_count` in your "default" constructor.
+How could we change the `_hash` data member to improve the performance of the `find()` function given the same elements as input? Alternatively, how could we change `_bucket_count` to see a similar improvement? _Hint: Think about how `_bucket()` is implemented and how you initialized `_bucket_count` in your "default" constructor._
 
 Question 6
 ----------
