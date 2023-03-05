@@ -3,7 +3,7 @@
         {
             "name":"access_operator",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/access_operator"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/access_operator"
             ],
             "points": 3,
             "time_limit": 10000,
@@ -12,7 +12,7 @@
         {
             "name":"bucket_iterator",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/bucket_iterator"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/bucket_iterator"
             ],
             "points": 4,
             "time_limit": 5000,
@@ -21,7 +21,7 @@
         {
             "name":"bucket_size",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/bucket_size"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/bucket_size"
             ],
             "points": 3,
             "time_limit": 5000,
@@ -30,7 +30,7 @@
         {
             "name":"bucket",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/bucket"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/bucket"
             ],
             "points": 3,
             "time_limit": 5000,
@@ -39,7 +39,7 @@
         {
             "name":"clear_and_empty",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/clear_and_empty"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/clear_and_empty"
             ],
             "points": 5,
             "time_limit": 5000,
@@ -48,7 +48,7 @@
         {
             "name":"constructor_copy",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/constructor_copy"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/constructor_copy"
             ],
             "points": 6,
             "time_limit": 10000,
@@ -57,7 +57,7 @@
         {
             "name":"constructor_move",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/constructor_move"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/constructor_move"
             ],
             "points": 6,
             "time_limit": 5000,
@@ -66,7 +66,7 @@
         {
             "name":"constructor",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/constructor"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/constructor"
             ],
             "points": 4,
             "time_limit": 5000,
@@ -75,7 +75,7 @@
         {
             "name":"erase_iterator",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/erase_iterator"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/erase_iterator"
             ],
             "points": 10,
             "time_limit": 12000,
@@ -84,7 +84,7 @@
         {
             "name":"erase",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/erase"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/erase"
             ],
             "points": 10,
             "time_limit": 12000,
@@ -93,7 +93,7 @@
         {
             "name":"insert_and_global_iterator",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/insert_and_global_iterator"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/insert_and_global_iterator"
             ],
             "points": 10,
             "time_limit": 10000,
@@ -102,7 +102,7 @@
         {
             "name":"insert_and_local_iterator",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/insert_and_local_iterator"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/insert_and_local_iterator"
             ],
             "points": 10,
             "time_limit": 12000,
@@ -111,7 +111,7 @@
         {
             "name":"insert_and_move",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/insert_and_move"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/insert_and_move"
             ],
             "points": 5,
             "time_limit": 12000,
@@ -120,7 +120,7 @@
         {
             "name":"iterator",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/iterator"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/iterator"
             ],
             "points": 4,
             "time_limit": 5000,
@@ -129,7 +129,7 @@
         {
             "name":"load_factor",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/load_factor"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/load_factor"
             ],
             "points": 3,
             "time_limit": 5000,
@@ -138,7 +138,7 @@
         {
             "name":"operator_copy",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/operator_copy"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/operator_copy"
             ],
             "points": 7,
             "time_limit": 5000,
@@ -147,7 +147,7 @@
         {
             "name":"operator_move",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/operator_move"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/operator_move"
             ],
             "points": 7,
             "time_limit": 5000,
@@ -156,7 +156,7 @@
         {
             "name":"ec_optimized_list",
             "cmds": [
-                "make -C tests SRC_DIR=../../submission -j12 run/ec_optimized_list"
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/ec_optimized_list"
             ],
             "points": 10,
             "time_limit": 5000,
