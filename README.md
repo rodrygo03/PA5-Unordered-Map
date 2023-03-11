@@ -689,7 +689,7 @@ The first command builds the tests, the next enters the folder where the tests w
 To ensure the correctness of an insert, the bucket iterator has to be fully implemented so the test cases can compare the insertion location against the correct location. Completing `insert`, `bucket_iterator`, and the required helpers is fairly involved. We suggest the following order:
  
 1. `constructor`: complete `bucket_count`, `constructor`, and `size`.
-2. `insert_and_global_iterator`: complete `begin`, `end`, `insert`, `iterator::operator++(int)`, `iterator::operator->()`, and `iterator::operator!=`. (You may wish to complete the `_insert_insert_into_bucket`, `_bucket`, and `_find` helpers for `insert`.)
+2. `insert_and_global_iterator`: complete `begin`, `end`, `insert`, `iterator::operator++(int)`, `iterator::operator->()`, and `iterator::operator!=`. (You may wish to complete the `_insert_into_bucket`, `_bucket`, and `_find` helpers for `insert`.)
 3. `insert_and_local_iterator`: complete `bucket_size`, `begin(bucket)`, `end(bucket)`, `local_iterator::operator++(int)`, `local_iterator::operator!=`, and `local_iterator::operator->()`.
  
 After passing these tests, you should be able to selectively complete the remaining methods.
