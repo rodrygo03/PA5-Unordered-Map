@@ -121,7 +121,7 @@ HashNode*& _find(const Key & key); // Private Helper
 HashNode* _insert_into_bucket(size_type bucket, value_type && value); // Private Helper
 ```
 
-**Description:** Inserts `node` at index `bucket` in the array of `_buckets` as the bucket head. If the global `_head` is empty or the bucket index of `_head` is greater than `value`'s bucket index, the inserted node also becomes the new `_head`.
+**Description:** Inserts a new node with pair `value` at index `bucket` in the array of `_buckets` as the new bucket head. This is not necessarily the global head, but is the first node in the bucket. If the global `_head` is empty or the bucket index of `_head` is greater than `value`'s bucket index (`head` should be in the first populated bucket), the inserted node also becomes the new `_head`. The pair `value` should be moved into the node.
 
 **Time Complexity:** *O(1)* &ndash; Constant Time
 
