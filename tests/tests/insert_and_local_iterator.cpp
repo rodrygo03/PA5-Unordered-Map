@@ -34,3 +34,26 @@ TEST(insert_and_local_iterator) {
         }
     }
 }
+
+TEST(destructor_and_insert) {
+    Typegen t;
+    for(size_t i = 0; i < TEST_ITER; i++) {
+
+        size_t n_pairs = t.range(400ul);
+        size_t n = t.range(1000ull);
+
+        std::vector<std::pair<double, double>> pairs(n_pairs);
+        t.fill(pairs.begin(), pairs.end());
+
+        Memhook mh;
+        {
+            UnorderedMap<double, double> map(n);
+
+            for(auto const & pair: pairs) {
+                std::pair<const double, double> to_insert(pair);
+                map.insert(to_insert);
+            }  
+        }
+        ASSERT_EQ(mh.n_allocs(), mh.n_frees());
+    }
+}

@@ -46,3 +46,34 @@ TEST(insert_and_move) {
         }
     }
 }
+
+TEST(destructor_and_insert_move) {
+    Typegen t;
+    for(size_t i = 0; i < TEST_ITER; i++) {
+        size_t n_pairs = t.range(1000ul);
+        std::vector<std::pair<int, int>> pairs(n_pairs);
+        t.fill_unique(pairs.begin(), pairs.end());
+
+        std::vector<std::pair<int, Box<int>>> boxes(n_pairs);
+        std::vector<std::pair<int, Box<int>>> cpy_boxes(n_pairs);
+
+        for(size_t i = 0; i < pairs.size(); i++) {
+            auto const & [key, val] = pairs[i];
+
+            boxes[i] = std::make_pair(key, Box<int>(val));
+            cpy_boxes[i] = std::make_pair(key, Box<int>(val));
+        }
+
+        size_t n = t.range(100ull);
+
+        Memhook mh;
+        {
+            UnorderedMap<int, Box<int>> map(n);
+        
+            for(size_t i = 0; i < pairs.size(); i++) {
+                map.insert(std::move(cpy_boxes[i]));
+            }
+        }
+        ASSERT_EQ(2*mh.n_allocs()-1, mh.n_frees());
+    }
+}
