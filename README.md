@@ -4,6 +4,29 @@ Have you ever wanted to associate two things together? For instance, you have an
 
 In this assignment, you will be parodying [`std::unordered_map`](https://en.cppreference.com/w/cpp/container/unordered_map) with [`UnorderedMap`](src/UnorderedMap.h). Unordered map is an associative container that stores key-value pairs and can search them by unique keys. Search, insertion, and removal of elements have average constant-time complexity. Internally, the elements are not sorted in any particular order, but organized into buckets. Which bucket an element is placed into depends entirely on the hash of its key. Keys with the same hash code appear in the same bucket. This allows fast access to individual elements, since once the hash is computed, it refers to the exact bucket the element is placed into. Each bucket has an assoicated list where all colliding key-value pairs are stored. This allows the map to achieve high load factors without a drastic reduction in performance. (This effect is commonly associated with closed-addressing.) `std::unordered_map` resizes automatically when the load factor exceedes a user-designated maximum load factor. It accomplishes this by increasing the number of buckets and rehashing the keys. To simplify the assignment, your map will have a fixed size.
 
+## Table of Contents
+[Getting Started](#getting-started)
+
+[Assignment](#assignment)
+
+- [Implement Unordered Map](#implement-unordered-map)
+
+    - [Implement the following functions](#implement-the-following-functions)
+    
+- [Implement the Unordered Map's Iterator](#implement-the-unordered-maps-iterator)
+    
+- [Implement two hashing algorithms](#implement-two-hashing-algorithms)
+
+- [Further Reading](#further-reading)
+
+[Application of Unordered Maps](#application-of-unordered-maps)
+
+[Run Tests](#run-tests)
+
+[Main.cpp](#maincpp)
+
+[Turn In](#turn-in)
+
 ## Getting started
 
 Download this code by running the following command in the directory of your choice:
@@ -589,6 +612,12 @@ This is an iterator to the nodes within a single bucket of the `UnorderedMap`.
 **Time Complexity:** Constant.
 
 **Test Names:** *local_iterator*, *insert_and_local_iterator*
+
+----
+
+### Implement two hashing algorithms
+
+For this assignment, you are also tasked with designing 2 significant hashing algorithms, which could be used in a hash table. Each of the functions also provides some psuedocode.
 
 ----
 
