@@ -59,7 +59,7 @@ You are to implement the below `UnorderedMap` functions.
 
 ----
 
-`void _insert_into_bucket(size_type bucket, value_type && value);` &ndash; Private Helper
+`HashNode* _insert_into_bucket(size_type bucket, value_type && value);` &ndash; Private Helper
 
 **Description:** Inserts `node` at index `bucket` in the array of `_buckets` as the bucket head. If the global `_head` is empty or the bucket index of `_head` is greater than `value`'s bucket index, the inserted node also becomes the new `_head`.
 
@@ -69,7 +69,7 @@ You are to implement the below `UnorderedMap` functions.
 
 ----
 
-`HashNode* _find(size_type code, size_type bucket, const Key & key);` &ndash; Private Helper
+`HashNode*& _find(size_type code, size_type bucket, const Key & key);` &ndash; Private Helper
 
 **Description:** Starts with the nodes in bucket `bucket` and iterates forward until the key matches `key`, returning the node where the keys match. If no such match occurs, returns `nullptr`.
 
@@ -79,7 +79,7 @@ You are to implement the below `UnorderedMap` functions.
 
 ----
 
-`HashNode* _find(const Key & key);` &ndash; Private Helper
+`HashNode*& _find(const Key & key);` &ndash; Private Helper
 
 **Description:** Calls `_find(size_type code, size_type bucket, const Key & key) ` with the `code` from the `_hash` and the `bucket` from the `_bucket` functions called on `key` and `code` respectively.
 
