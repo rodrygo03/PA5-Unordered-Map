@@ -59,16 +59,6 @@ You are to implement the below `UnorderedMap` functions.
 
 ----
 
-`HashNode* _insert_into_bucket(size_type bucket, value_type && value);` &ndash; Private Helper
-
-**Description:** Inserts `node` at index `bucket` in the array of `_buckets` as the bucket head. If the global `_head` is empty or the bucket index of `_head` is greater than `value`'s bucket index, the inserted node also becomes the new `_head`.
-
-**Time Complexity:** Constant.
-
-**Used In:** [`insert`](https://en.cppreference.com/w/cpp/container/unordered_map/insert)
-
-----
-
 `HashNode*& _find(size_type code, size_type bucket, const Key & key);` &ndash; Private Helper
 
 **Description:** Starts with the nodes in bucket `bucket` and iterates forward until the key matches `key`, returning the node where the keys match. If no such match occurs, returns `nullptr`.
@@ -86,6 +76,26 @@ You are to implement the below `UnorderedMap` functions.
 **Time Complexity:** Average case: Constant, worst case: Linear in the size of the container.
 
 **Used In:** [`find`](https://en.cppreference.com/w/cpp/container/unordered_map/find), [`erase`](https://en.cppreference.com/w/cpp/container/unordered_map/erase)
+
+----
+
+`HashNode* _insert_into_bucket(size_type bucket, value_type && value);` &ndash; Private Helper
+
+**Description:** Inserts `node` at index `bucket` in the array of `_buckets` as the bucket head. If the global `_head` is empty or the bucket index of `_head` is greater than `value`'s bucket index, the inserted node also becomes the new `_head`.
+
+**Time Complexity:** Constant.
+
+**Used In:** [`insert`](https://en.cppreference.com/w/cpp/container/unordered_map/insert)
+
+----
+
+`void _move_content(UnorderedMap & src, UnorderedMap & dst);` &ndash; Private Helper
+
+**Description:** Moves the contents from map `src` into map `dst`. This is meant to be used in the move constructor and move assignment operator functions.
+
+**Time Complexity:** Constant.
+
+**Used In:** [move constructor](https://en.cppreference.com/w/cpp/container/unordered_map/unordered_map), [move assignment operator](https://en.cppreference.com/w/cpp/container/unordered_map/operator=)
 
 ----
 
