@@ -14,6 +14,8 @@ In this assignment, you will be parodying [`std::unordered_map`](https://en.cppr
     - [Implement the following functions](#implement-the-following-functions)
     
 - [Implement the Unordered Map's Iterator](#implement-the-unordered-maps-iterator)
+
+- [Implement the Unordered Map's Local Iterator](#implement-the-unordered-maps-local-iterator)
     
 - [Implement two hashing algorithms](#implement-two-hashing-algorithms)
 
@@ -51,82 +53,101 @@ In Computer Science literature, `UnorderedMap` is often referred to as a Hash Ta
 
 You are to implement the below `UnorderedMap` functions.
 
+----
+
 #### Implement the following functions:
 
-`size_type _bucket(size_t code) const;` &ndash; Private Helper
+```cpp
+size_type _bucket(size_t code) const; // Private Helper
+```
 
 **Description:** Returns the index of the bucket for hash code `code`. You should consider utilizing the provided `_range_hash(size_type hash_code, size_type bucket_count)` function. You can call this `_bucket` function from within the  `size_type _bucket(const Key &key)` function, once you have a hash code for its `key`.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Used In:** `_bucket`, `_find`, [`insert`](https://en.cppreference.com/w/cpp/container/unordered_map/insert)
 
 ----
 
-`size_type _bucket(const Key &key) const;` &ndash; Private Helper
+```cpp
+size_type _bucket(const Key &key) const; // Private Helper
+```
 
 **Description:** Returns the index of the bucket for key `key`. Elements (if any) with keys equivalent to `key` are always found in this bucket. You can call this function from within the `size_type _bucket(const value_type &val)` function passing in the key value in `val` as the parameter.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Used In:** `erase`, [`bucket`](https://en.cppreference.com/w/cpp/container/unordered_map/bucket)
 
 ----
-`size_type _bucket(const value_type &val) const;` &ndash; Private Helper
+
+```cpp
+size_type _bucket(const value_type &val) const; // Private Helper
+```
 
 **Description:** Returns the index of the bucket for value_type `val`. Elements (if any) with keys equivalent to the key value in `val` are always found in this bucket.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Used In:** `operator++`, [`insert`](https://en.cppreference.com/w/cpp/container/unordered_map/insert)
 
 ----
 
-`HashNode*& _find(size_type code, size_type bucket, const Key & key);` &ndash; Private Helper
+```cpp
+HashNode*& _find(size_type code, size_type bucket, const Key & key); // Private Helper
+```
 
 **Description:** Starts with the nodes in bucket `bucket` and iterates forward until the key matches `key`, returning the node where the keys match. If no such match occurs, returns `nullptr`.
 
-**Time Complexity:** Average case: Constant, worst case: Linear in the size of the container.
+**Time Complexity:** Average case: *O(1)*, Worst case: *O(`size()`)*
 
 **Used In:** `_find`, [`insert`](https://en.cppreference.com/w/cpp/container/unordered_map/insert)
 
 ----
 
-`HashNode*& _find(const Key & key);` &ndash; Private Helper
+```cpp
+HashNode*& _find(const Key & key); // Private Helper
+```
 
 **Description:** Calls `_find(size_type code, size_type bucket, const Key & key) ` with the `code` from the `_hash` and the `bucket` from the `_bucket` functions called on `key` and `code` respectively.
 
-**Time Complexity:** Average case: Constant, worst case: Linear in the size of the container.
+**Time Complexity:** Average case: *O(1)*, Worst case: *O(`size()`)*
 
 **Used In:** [`find`](https://en.cppreference.com/w/cpp/container/unordered_map/find), [`erase`](https://en.cppreference.com/w/cpp/container/unordered_map/erase)
 
 ----
 
-`HashNode* _insert_into_bucket(size_type bucket, value_type && value);` &ndash; Private Helper
+```cpp
+HashNode* _insert_into_bucket(size_type bucket, value_type && value); // Private Helper
+```
 
 **Description:** Inserts `node` at index `bucket` in the array of `_buckets` as the bucket head. If the global `_head` is empty or the bucket index of `_head` is greater than `value`'s bucket index, the inserted node also becomes the new `_head`.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Used In:** [`insert`](https://en.cppreference.com/w/cpp/container/unordered_map/insert)
 
 ----
 
-`void _move_content(UnorderedMap & src, UnorderedMap & dst);` &ndash; Private Helper
+```cpp
+void _move_content(UnorderedMap & src, UnorderedMap & dst); // Private Helper
+```
 
 **Description:** Moves the contents from map `src` into map `dst`. This is meant to be used in the move constructor and move assignment operator functions.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Used In:** [move constructor](https://en.cppreference.com/w/cpp/container/unordered_map/unordered_map), [move assignment operator](https://en.cppreference.com/w/cpp/container/unordered_map/operator=)
 
 ----
 
-`explicit UnorderedMap(size_type bucket_count, const Hash & hash = Hash { }, const key_equal & equal = key_equal { });` &ndash; Constructor
+```cpp
+explicit UnorderedMap(size_type bucket_count, const Hash & hash = Hash { }, const key_equal & equal = key_equal { }); // Constructor
+```
 
 **Description:** Constructs empty container. You must ensure that the `_bucket_count` is prime by calling the `next_greater_prime` function which will return the prime that is at least as large as `bucket_count`. If you do not have a prime `_bucket_count`, very bad things can happen to the efficiency of the `UnorderedMap`.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** constructor
 
@@ -134,11 +155,13 @@ You are to implement the below `UnorderedMap` functions.
 
 ----
 
-`~UnorderedMap();` &ndash; Destructor
+```cpp
+~UnorderedMap(); // Destructor
+```
 
 **Description:** Destructs the `UnorderedMap`. The destructors of the elements are called and the used storage is deallocated. Note, that if the elements are pointers, the pointed-to objects are not destroyed.
 
-**Time Complexity:** Linear in the size of the `UnorderedMap`.
+**Time Complexity:** *O(`size()`)* &ndash; Linear Time
 
 **Test Names:** *used frequently*
 
@@ -146,11 +169,13 @@ You are to implement the below `UnorderedMap` functions.
 
 ----
 
-`UnorderedMap(const UnorderedMap & other);` &ndash; Copy Constructor
+```cpp
+UnorderedMap(const UnorderedMap & other); // Copy Constructor
+```
 
 **Description:** Constructs the container with the copy of the contents of other, copies the load factor, the predicate, and the hash function as well.
 
-**Time Complexity:** Linear in size of `other`.
+**Time Complexity:** *O(`size()`)* &ndash; Linear Time
 
 **Test Names:** constructor_copy
 
@@ -158,11 +183,13 @@ You are to implement the below `UnorderedMap` functions.
 
 ----
 
-`UnorderedMap(UnorderedMap && other);` &ndash; Move Constructor
+```cpp
+UnorderedMap(UnorderedMap && other); // Move Constructor
+```
 
 **Description:** Constructs the container with the contents of other using move semantics.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** constructor_move
 
@@ -170,11 +197,13 @@ You are to implement the below `UnorderedMap` functions.
 
 ----
 
-`UnorderedMap & operator=(const UnorderedMap & other);` &ndash; Copy Assignment Operator
+```cpp
+UnorderedMap & operator=(const UnorderedMap & other); // Copy Assignment Operator
+```
 
 **Description:** Replaces the contents with a copy of the contents of other.
 
-**Time Complexity:** Linear in the size of `*this` and `other`.
+**Time Complexity:** *O(`size()` + `other.size()`)*
 
 **Test Names:** operator_copy
 
@@ -182,11 +211,13 @@ You are to implement the below `UnorderedMap` functions.
 
 ----
 
-`UnorderedMap & operator=(UnorderedMap && other);`
+```cpp
+UnorderedMap & operator=(UnorderedMap && other); // Move Assignment Operator
+```
 
 **Description:** Replaces the contents with those of `other` using move semantics (i.e. the data in `other` is moved from `other` into this container). `other` is in a valid but unspecified state afterwards.
 
-**Time Complexity:** Linear in the size of `*this`.
+**Time Complexity:** *O(`size()`)* &ndash; Linear Time
 
 **Test Names:** operator_move
 
@@ -194,25 +225,28 @@ You are to implement the below `UnorderedMap` functions.
 
 ----
 
-`void clear() noexcept;`
+```cpp
+void clear() noexcept;
+```
 
 **Description:** Erases all elements from the container. After this call, [`size()`](https://en.cppreference.com/w/cpp/container/unordered_map/size) returns zero.
 
 Invalidates any references, pointers, or iterators referring to contained elements. May also invalidate past-the-end iterators.
 
-**Time Complexity:** Linear in the size of the container, i.e., the number of elements.
-
+**Time Complexity:** *O(`size()`)* &ndash; Linear Time
 **Test Names:** clear_and_empty
 
 **Link:** https://en.cppreference.com/w/cpp/container/unordered_map/clear
 
 ----
 
-`size_type size() const noexcept;`
+```cpp
+size_type size() const noexcept;
+```
 
 **Description:** Returns the number of elements in the container.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *used frequently*
 
@@ -220,11 +254,13 @@ Invalidates any references, pointers, or iterators referring to contained elemen
 
 ----
 
-`bool empty() const noexcept;`
+```cpp
+bool empty() const noexcept;
+```
 
 **Description:** Checks if the container has no elements.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** clear_and_empty
 
@@ -232,11 +268,13 @@ Invalidates any references, pointers, or iterators referring to contained elemen
 
 ----
 
-`size_type bucket_count() const noexcept;`
+```cpp
+size_type bucket_count() const noexcept;
+```
 
 **Description:** Returns the number of buckets in the container.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *used frequently*
 
@@ -244,13 +282,15 @@ Invalidates any references, pointers, or iterators referring to contained elemen
 
 ----
 
-`const_iterator cbegin();`
+```cpp
+const_iterator cbegin();
+```
 
 **Description:** Returns a const_iterator to the first element of the `UnorderedMap`.
 
 If the `UnorderedMap` is empty, the returned iterator will be equal to [`end()`](https://en.cppreference.com/w/cpp/container/unordered_map/end). 
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *iterator*
 
@@ -258,13 +298,15 @@ If the `UnorderedMap` is empty, the returned iterator will be equal to [`end()`]
 
 ----
 
-`const_iterator cend();`
+```cpp
+const_iterator cend();
+```
 
 **Description:** Returns a const_iterator to the element following the last element of the `UnorderedMap`.
 
 This element acts as a placeholder; attempting to access it results in undefined behavior. 
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *iterator*
 
@@ -272,13 +314,15 @@ This element acts as a placeholder; attempting to access it results in undefined
 
 ----
 
-`iterator begin();`
+```cpp
+iterator begin();
+```
 
 **Description:** Returns an iterator to the first element of the `UnorderedMap`.
 
 If the `UnorderedMap` is empty, the returned iterator will be equal to [`end()`](https://en.cppreference.com/w/cpp/container/unordered_map/end). 
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *iterator*
 
@@ -286,13 +330,15 @@ If the `UnorderedMap` is empty, the returned iterator will be equal to [`end()`]
 
 ----
 
-`iterator end();`
+```cpp
+iterator end();
+```
 
 **Description:** Returns an iterator to the element following the last element of the `UnorderedMap`.
 
 This element acts as a placeholder; attempting to access it results in undefined behavior. 
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *iterator*
 
@@ -300,11 +346,13 @@ This element acts as a placeholder; attempting to access it results in undefined
 
 ----
 
-`local_iterator begin(size_type n);`
+```cpp
+local_iterator begin(size_type n);
+```
 
 **Description:** Returns a local iterator to the first element of the bucket with index `n`.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *local_iterator*
 
@@ -312,11 +360,13 @@ This element acts as a placeholder; attempting to access it results in undefined
 
 ----
 
-`local_iterator end(size_type n);`
+```cpp
+local_iterator end(size_type n);
+```
 
 **Description:** Returns a local iterator to the element following the last element of the bucket with index `n`. This element acts as a placeholder, attempting to access it results in undefined behavior.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *local_iterator*
 
@@ -324,11 +374,13 @@ This element acts as a placeholder; attempting to access it results in undefined
 
 ----
 
-`size_type bucket_size(size_type n);`
+```cpp
+size_type bucket_size(size_type n);
+```
 
 **Description:** Returns the number of elements in the bucket with index `n`.
 
-**Time Complexity:** Linear in the size of the bucket `n`.
+**Time Complexity:** *O(elements in `n`)* &ndash; Linear Time
 
 **Test Names:** *bucket_size*
 
@@ -336,11 +388,13 @@ This element acts as a placeholder; attempting to access it results in undefined
 
 ----
 
-`float load_factor() const;`
+```cpp
+float load_factor() const;
+```
 
 **Description:** Returns the average number of elements per bucket, that is, [`size()`](https://en.cppreference.com/w/cpp/container/unordered_map/size) divided by [`bucket_count()`](https://en.cppreference.com/w/cpp/container/unordered_map/bucket_count).
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *load_factor*
 
@@ -348,13 +402,15 @@ This element acts as a placeholder; attempting to access it results in undefined
 
 ----
 
-`size_type bucket(const Key & key) const;`
+```cpp
+size_type bucket(const Key & key) const;
+```
 
 **Description:** Returns the index of the bucket for key `key`. Elements (if any) with keys equivalent to `key` are always found in this bucket. The returned value is valid only for instances of the container for which [`bucket_count()`](https://en.cppreference.com/w/cpp/container/unordered_map/bucket_count) returns the same value.
 
 The behavior is undefined if [`bucket_count()`](https://en.cppreference.com/w/cpp/container/unordered_map/bucket_count) is zero.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *bucket*
 
@@ -362,11 +418,13 @@ The behavior is undefined if [`bucket_count()`](https://en.cppreference.com/w/cp
 
 ----
 
-`std::pair<iterator, bool> insert(value_type && value);`
+```cpp
+std::pair<iterator, bool> insert(value_type && value);
+```
 
 **Description:** Inserts `value` using move semantics. Returns a pair consisting of an iterator to the inserted element (or to the element that prevented the insertion) and a `bool` denoting whether the insertion took place (`true` if insertion happened, `false` if it did not).
 
-**Time Complexity:** Average case: O(1), worst case O(`size()`)
+**Time Complexity:** Average case: *O(1)*, Worst case: *O(`size()`)*
 
 **Test Names:** *insert_and_move*
 
@@ -374,11 +432,13 @@ The behavior is undefined if [`bucket_count()`](https://en.cppreference.com/w/cp
 
 ----
 
-`std::pair<iterator, bool> insert(const value_type & value);`
+```cpp
+std::pair<iterator, bool> insert(const value_type & value);
+```
 
 **Description:** Inserts `value` using copy semantics. Returns a pair consisting of an iterator to the inserted element (or to the element that prevented the insertion) and a `bool` denoting whether the insertion took place (`true` if insertion happened, `false` if it did not).
 
-**Time Complexity:** Average case: O(1), worst case O(`size()`)
+**Time Complexity:** Average case: *O(1)*, Worst case: *O(`size()`)*
 
 **Test Names:** *insert_and_local_iterator*, *insert_and_global_iterator*
 
@@ -386,11 +446,13 @@ The behavior is undefined if [`bucket_count()`](https://en.cppreference.com/w/cp
 
 ----
 
-`iterator find(const Key & key);`
+```cpp
+iterator find(const Key & key);
+```
 
 **Description:** Finds an element with key equivalent to `key`. If no such element is found, past-the-end (see [`end()`](https://en.cppreference.com/w/cpp/container/unordered_map/end)) iterator is returned.
 
-**Time Complexity:** Constant on average, worst case linear in the size of the container.
+**Time Complexity:** Average case: *O(1)*, Worst case: *O(`size()`)*
 
 **Test Names:** 
 
@@ -398,11 +460,13 @@ The behavior is undefined if [`bucket_count()`](https://en.cppreference.com/w/cp
 
 ----
 
-`T& operator[](const Key & key);`
+```cpp
+T& operator[](const Key & key);
+```
 
 **Description:** Inserts a value_type object constructed in-place if the key does not exist. Returns a reference to the mapped value of the new element if no element with key `key` existed. Otherwise, returns a reference to the mapped value of the existing element whose key is equivalent to `key`.
 
-**Time Complexity:** Average case: constant, worst case: linear in size.
+**Time Complexity:** Average case: *O(1)*, Worst case: *O(`size()`)*
 
 **Test Names:** *access_operator*
 
@@ -410,11 +474,13 @@ The behavior is undefined if [`bucket_count()`](https://en.cppreference.com/w/cp
 
 ----
 
-`iterator erase(iterator pos);`
+```cpp
+iterator erase(iterator pos);
+```
 
 **Description:** Removes the element at `pos`. The iterator `pos` must be valid and dereferenceable. Thus the [`end()`](https://en.cppreference.com/w/cpp/container/unordered_map/end) iterator (which is valid, but is not dereferenceable) cannot be used as a value for `pos`. Returns an iterator following the last removed element.
 
-**Time Complexity:** Average case: constant, worst case: `c.size()`
+**Time Complexity:** Average case: *O(1)*, Worst case: *O(`size()`)*
 
 **Test Names:** *erase_iterator*
 
@@ -422,11 +488,13 @@ The behavior is undefined if [`bucket_count()`](https://en.cppreference.com/w/cp
 
 ----
 
-`size_type erase(const Key & key);`
+```cpp
+size_type erase(const Key & key);
+```
 
 **Description:** Removes the element (if one exists) with the key equivalent to `key`. Returns the number of elements removed (`0` or `1`). 
 
-**Time Complexity:** Average case: [`c.count(key)`](https://en.cppreference.com/w/cpp/container/unordered_map/count), worst case: `c.size()`
+**Time Complexity:** Average case: *O(1)*, Worst case: *O(`size()`)*
 
 **Test Names:** *erase*
 
@@ -453,79 +521,95 @@ This is an iterator to all of the nodes within the `UnorderedMap`. It should jum
 
 ----
 
-`explicit basic_iterator(UnorderedMap const * map, HashNode *ptr) noexcept;` &ndash; Private Helper
+```cpp
+explicit basic_iterator(UnorderedMap const * map, HashNode *ptr) noexcept; // Private Helper
+```
 
 **Description:** Creates an `iterator` to the key-value pair belonging to the `HashNode` pointed to by `ptr`.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 ----
 
-`basic_iterator();`
+```cpp
+basic_iterator();
+```
 
 **Description:** Creates a `basic_iterator` by default, where the pointer beloning to the iterator is `nullptr`.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *iterator*
 
 ----
 
-`reference operator*() const;`
+```cpp
+reference operator*() const;
+```
 
 **Description:** Return a reference to the key-value pair beloning to the `_node` owned by this iterator.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *iterator*
 
 ----
 
-`pointer operator->() const;`
+```cpp
+pointer operator->() const;
+```
 
 **Description:** Return a pointer to the key-value pair beloning to the `_node` owned by this iterator.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *iterator*
 
 ----
 
-`basic_iterator &operator++();` &ndash; Prefix Increment
+```cpp
+basic_iterator &operator++(); // Prefix Increment
+```
 
 **Description:** Change the `_node` to be the next `_node` in the `UnorderedMap`, even if that node is in a different bucket. Return a reference to the iterator after the change.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *iterator*
 
 ----
 
-`basic_iterator operator++(int);` &ndash; Postfix Increment
+```cpp
+basic_iterator operator++(int); // Postfix Increment
+```
 
 **Description:** Change the `_node` to be the next `_node` in the `UnorderedMap`, even if that node is in a different bucket, but return a copy of the `iterator` from before the change.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *iterator*, *insert_and_global_iterator*
 
 ----
 
-`bool operator==(const basic_iterator &other) const noexcept;`
+```cpp
+bool operator==(const basic_iterator &other) const noexcept;
+```
 
 **Description:** Test whether two `basic_iterator`s refer to the same `HashNode`.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *iterator*
 
 ----
 
-`bool operator!=(const basic_iterator &other) const noexcept;`
+```cpp
+bool operator!=(const basic_iterator &other) const noexcept;
+```
 
 **Description:** Test whether two `basic_iterator`s refer to different `HashNode`s.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *insert_and_global_iterator*, *iterator*
 
@@ -537,79 +621,95 @@ This is an iterator to the nodes within a single bucket of the `UnorderedMap`.
 
 ----
 
-`explicit local_iterator( HashNode * node ) noexcept;` &ndash; Private Helper
+```cpp
+explicit local_iterator( HashNode * node ) noexcept; // Private Helper
+```
 
 **Description:** Creates a `local_iterator` to the key-value pair belonging to the `HashNode` pointed to by `ptr` limited to the bucket `bucket` within `map`.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 ----
 
-`local_iterator();`
+```cpp
+local_iterator();
+```
 
 **Description:** Creates a `local_iterator` by default, where the pointer beloning to the local iterator is `nullptr`.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *local_iterator*
 
 ----
 
-`reference operator*() const;`
+```cpp
+reference operator*() const;
+```
 
 **Description:** Return a reference to the key-value pair beloning to the `_node` owned by this iterator.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *local_iterator*
 
 ----
 
-`pointer operator->() const;`
+```cpp
+pointer operator->() const;
+```
 
 **Description:** Return a pointer to the key-value pair beloning to the `_node` owned by this iterator.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *local_iterator*, *insert_and_local_iterator*
 
 ----
 
-`local_iterator & operator++();` &ndash; Prefix Increment
+```cpp
+local_iterator & operator++(); // Prefix Increment
+```
 
 **Description:** Change the `_node` to be the next `_node` in the `UnorderedMap`. If that node is in a different bucket, change `_node` to be `nullptr`. Return a reference to the iterator after the change.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *local_iterator*
 
 ----
 
-`local_iterator operator++(int);` &ndash; Postfix Increment
+```cpp
+local_iterator operator++(int); // Postfix Increment
+```
 
 **Description:** Change the `_node` to be the next `_node` in the `UnorderedMap`. If that node is in a different bucket, change `_node` to be `nullptr`. Return a copy of the `local_iterator` from before the change.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *local_iterator*, *insert_and_local_iterator*
 
 ----
 
-`bool operator==(const local_iterator &other) const noexcept;`
+```cpp
+bool operator==(const local_iterator &other) const noexcept;
+```
 
 **Description:** Test whether two `local_iterator`s refer to the same `HashNode`.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *local_iterator*
 
 ----
 
-`bool operator!=(const local_iterator &other) const noexcept;`
+```cpp
+bool operator!=(const local_iterator &other) const noexcept;
+```
 
 **Description:** Test whether two `local_iterator`s refer to different `HashNode`s.
 
-**Time Complexity:** Constant.
+**Time Complexity:** *O(1)* &ndash; Constant Time
 
 **Test Names:** *local_iterator*, *insert_and_local_iterator*
 
@@ -625,7 +725,7 @@ For this assignment, you are also tasked with designing 2 significant hashing al
 
 **Description:** Returns the hash code resulting from hashing `str` using a polynomial rolling hash algorithm. To pass our test cases, you will need to have `b` be `19` and `m` be `3298534883309ul`.
 
-**Time Complexity:** Linear in the size of the string being hashed.
+**Time Complexity:** *O(`str.size()`)* &ndash; Linear Time
 
 **Test Names:** *polynomial_hash*
 
@@ -649,7 +749,7 @@ polynomial_rolling_hash(string str) :
 
 **Description:** Returns the hash code resulting from hashing `str` using the fnv1a algorithm. To pass our test cases, you will need to have the `prime` be `0x00000100000001B3` and the `basis` be `0xCBF29CE484222325`.
 
-**Time Complexity:** Linear in the size of the string being hashed.
+**Time Complexity:** *O(`str.size()`)* &ndash; Linear Time
 
 **Test Names:** *fnv1a_hash*
 
