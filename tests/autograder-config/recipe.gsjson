@@ -73,11 +73,20 @@
             "long_name": "constructor"
         },
         {
+            "name":"destructor_and_inserts",
+            "cmds": [
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/destructor_and_inserts"
+            ],
+            "points": 4,
+            "time_limit": 12000,
+            "long_name": "destructor_and_inserts"
+        },
+        {
             "name":"erase_iterator",
             "cmds": [
                 "make -C tests RTEST_SRC_DIR=../../submission -j12 run/erase_iterator"
             ],
-            "points": 10,
+            "points": 9,
             "time_limit": 12000,
             "long_name": "erase_iterator"
         },
@@ -86,7 +95,7 @@
             "cmds": [
                 "make -C tests RTEST_SRC_DIR=../../submission -j12 run/erase"
             ],
-            "points": 10,
+            "points": 9,
             "time_limit": 12000,
             "long_name": "erase"
         },
@@ -95,7 +104,7 @@
             "cmds": [
                 "make -C tests RTEST_SRC_DIR=../../submission -j12 run/insert_and_global_iterator"
             ],
-            "points": 10,
+            "points": 9,
             "time_limit": 10000,
             "long_name": "insert_and_global_iterator"
         },
@@ -104,7 +113,7 @@
             "cmds": [
                 "make -C tests RTEST_SRC_DIR=../../submission -j12 run/insert_and_local_iterator"
             ],
-            "points": 10,
+            "points": 9,
             "time_limit": 12000,
             "long_name": "insert_and_local_iterator"
         },

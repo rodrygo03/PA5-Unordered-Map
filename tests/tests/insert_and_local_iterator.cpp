@@ -15,13 +15,14 @@ TEST(insert_and_local_iterator) {
         shadow_map<double, double> shadow_map(n);
     
         for(auto const & pair: pairs) {
-            auto [it, inserted] = shadow_map.insert(pair);
+            std::pair<const double, double> to_insert(pair);
+            auto [it, inserted] = shadow_map.insert(to_insert);
             
             std::pair<iter, bool> ret;
             
             {
                 Memhook mh;
-                ret = map.insert(pair);
+                ret = map.insert(to_insert);
                 ASSERT_EQ(inserted, mh.n_allocs());
                 ASSERT_EQ(0ULL, mh.n_frees());
             }

@@ -16,13 +16,14 @@ TEST(insert_and_global_iterator) {
         UnorderedMap<double, double> map(n);
 
         for(auto const & pair: pairs) {
-            auto [it, inserted] = shadow_map.insert(pair);
+            std::pair<const double, double> to_insert(pair);
+            auto [it, inserted] = shadow_map.insert(to_insert);
             
             std::pair<iter, bool> ret;
             
             {
                 Memhook mh;
-                ret = map.insert(pair);
+                ret = map.insert(to_insert);
                 ASSERT_EQ(inserted, mh.n_allocs());
             }
 
