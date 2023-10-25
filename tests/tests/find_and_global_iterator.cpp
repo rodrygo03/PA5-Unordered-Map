@@ -39,15 +39,11 @@ TEST(find_and_global_iterator) {
             ASSERT_PAIRS_FOUND_IN_CORRECT_BUCKETS(shadow_map, map);
 
             // Find Testing
-            for (iter it = map.begin(); it != map.end(); it++) {
-                // Guarantee that the iterator returned from their find is the same
-                auto ret_iter_found = map.find(it->first);
+            auto ret_found = map.find(pair.first);
 
-                // If shadow is null, map.find should return an iterator to null or map.end()
-                ASSERT_EQ(inserted, ret_iter_found == map.end());
-                // The pointer difference from begin to found should be the same for both maps
-                ASSERT_EQ(static_cast<ptrdiff_t>(&(*shadow_it) - &(*map.begin())), static_cast<ptrdiff_t>(&(*ret_iter_found) - &(*map.begin())));
-            }
+            ASSERT_EQ(!inserted, ret_found == map.end());
+
+            ASSERT_EQ(&(*ret_found), &(*ret.first));
         }
     }
 }
