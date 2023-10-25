@@ -23,7 +23,7 @@
             "cmds": [
                 "make -C tests RTEST_SRC_DIR=../../submission -j12 run/bucket_size"
             ],
-            "points": 3,
+            "points": 2,
             "time_limit": 5000,
             "long_name": "bucket_size"
         },
@@ -109,11 +109,20 @@
             "long_name": "fnv1a_hash"
         },
         {
+            "name":"find_and_global_iterator",
+            "cmds": [
+                "make -C tests RTEST_SRC_DIR=../../submission -j12 run/find_and_global_iterator"
+            ],
+            "points": 4,
+            "time_limit": 10000,
+            "long_name": "find_and_global_iterator"
+        },
+        {
             "name":"insert_and_global_iterator",
             "cmds": [
                 "make -C tests RTEST_SRC_DIR=../../submission -j12 run/insert_and_global_iterator"
             ],
-            "points": 8,
+            "points": 6,
             "time_limit": 10000,
             "long_name": "insert_and_global_iterator"
         },
@@ -149,7 +158,7 @@
             "cmds": [
                 "make -C tests RTEST_SRC_DIR=../../submission -j12 run/load_factor"
             ],
-            "points": 3,
+            "points": 2,
             "time_limit": 5000,
             "long_name": "load_factor"
         },
