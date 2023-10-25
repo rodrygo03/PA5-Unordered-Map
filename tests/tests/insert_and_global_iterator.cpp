@@ -16,7 +16,6 @@ TEST(insert_and_global_iterator) {
         std::unordered_map<double, double> shadow_map;
         UnorderedMap<double, double> map(n);
 
-        // // Tracks all [key, value] that have been inserted to our map
         std::unordered_set<std::pair<double, double>> inserted;
 
         for (auto const & pair : pairs) {
