@@ -1,5 +1,6 @@
 #include "executable.h"
 #include <unordered_map>
+#include <unordered_set>
 
 TEST(insert_and_global_iterator) {
     Typegen t;
@@ -15,7 +16,9 @@ TEST(insert_and_global_iterator) {
         std::unordered_map<double, double> shadow_map;
         UnorderedMap<double, double> map(n);
 
-        for(auto const & pair: pairs) {
+        std::unordered_set<std::pair<double, double>> map_inserted_pairs;
+
+        for (auto const & pair : pairs) {
             std::pair<const double, double> to_insert(pair);
             auto [it, inserted] = shadow_map.insert(to_insert);
             
@@ -30,16 +33,34 @@ TEST(insert_and_global_iterator) {
             ASSERT_EQ(inserted, ret.second);
             ASSERT_EQ(shadow_map.size(), map.size());
             ASSERT_EQ(pair.first, ret.first->first);
+        }
 
-            for(iter it = map.begin(); it != map.end(); it++) {
-                auto found = shadow_map.find(it->first);
+        // These store the number of iterations you make below. They should be equal.
+        size_t your_iterations = 0;
+        size_t shadow_iterations = 0;
 
-                tdbg << "Value with key " << it->first << " could not be found in your map.";
-                ASSERT_TRUE(found != shadow_map.end());
-                
-                tdbg << "Key " << it->first << " has wrong value " << it->second;
-                ASSERT_EQ(found->second, it->second);
-            }
-        }  
+        // Traverse through our map, and add all values found to a set.
+        for (iter it = map.begin(); it != map.end(); it++) {
+            auto pair = std::make_pair(it->first, it->second);
+            map_inserted_pairs.insert(pair);
+
+            your_iterations++;
+        }
+
+        // Traverse globally through shadow map, checking that all values found here are also found in your map.
+        for (auto it = shadow_map.begin(); it != shadow_map.end(); it++) {
+            auto pair = std::make_pair(it->first, it->second);
+
+            // Is the pair in shadow map in our set of your map pairs?
+            bool found = map_inserted_pairs.find(pair) != map_inserted_pairs.end();
+
+            tdbg << "Value with key " << it->first << " and value " << it->second << " was not found in your map.";
+            ASSERT_TRUE(found);
+
+            shadow_iterations++;
+        }
+
+        // Your iterations and the shadow map iterations should be the same
+        ASSERT_EQ(shadow_iterations, your_iterations);
     }
 }
