@@ -9,21 +9,17 @@ In this assignment, you will be parodying [`std::unordered_map`](https://en.cppr
 
 [Assignment](#assignment)
 
-- [Unordered Map](#unordered-map)
-  - [Table of Contents](#table-of-contents)
-  - [Getting started](#getting-started)
-  - [Assignment](#assignment)
-    - [Implement Unordered Map](#implement-unordered-map)
-      - [Implement the following functions:](#implement-the-following-functions)
-    - [Implement the Unordered Map's Iterator](#implement-the-unordered-maps-iterator)
-    - [Implement the Unordered Map's Local Iterator](#implement-the-unordered-maps-local-iterator)
-    - [Implement two hashing algorithms](#implement-two-hashing-algorithms)
-      - [Further Reading](#further-reading)
-    - [Application of Unordered Maps](#application-of-unordered-maps)
-  - [Run Tests](#run-tests)
-  - [Incremental Testing:](#incremental-testing)
-  - [Main.cpp:](#maincpp)
-  - [Turn In](#turn-in)
+- [Implement Unordered Map](#implement-unordered-map)
+
+    - [Implement the following functions](#implement-the-following-functions)
+
+- [Implement the Unordered Map's Iterator](#implement-the-unordered-maps-iterator)
+
+- [Implement the Unordered Map's Local Iterator](#implement-the-unordered-maps-local-iterator)
+
+- [Implement two hashing algorithms](#implement-two-hashing-algorithms)
+
+- [Further Reading](#further-reading)
 
 [Application of Unordered Maps](#application-of-unordered-maps)
 
