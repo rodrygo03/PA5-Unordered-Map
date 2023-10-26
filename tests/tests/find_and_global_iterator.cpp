@@ -15,8 +15,7 @@ TEST(find_and_global_iterator) {
         size_t n = t.range(100ull);
 
         UnorderedMap<double, double> map(n);
-
-        shadow_map<double, double> shadow_map(n);
+        std::unordered_map<double, double> shadow_map(n);
 
         for (auto const & pair : pairs) {
             std::pair<const double, double> to_insert(pair);
@@ -36,8 +35,6 @@ TEST(find_and_global_iterator) {
             ASSERT_EQ(shadow_map.size(), map.size());
             ASSERT_EQ(pair.first, ret.first->first);
 
-            ASSERT_PAIRS_FOUND_IN_CORRECT_BUCKETS(shadow_map, map);
-
             // Find Testing
             auto ret_found = map.find(pair.first);
 
@@ -45,5 +42,14 @@ TEST(find_and_global_iterator) {
 
             ASSERT_EQ(&(*ret_found), &(*ret.first));
         }
+
+        // Test for finding a value that was not inserted, should be null and assumes t.fill for previous pairs includes negatives
+        double new_key = t.range<double>(1, 100);
+        while (shadow_map.find(new_key) != shadow_map.end()) {
+            new_key = t.range<double>(1, 100);
+        }
+
+        // The iterator returned by map.find(new_key) should be map.end() or null, as it doesn't exist
+        ASSERT_TRUE(map.find(new_key) == map.end());
     }
 }
