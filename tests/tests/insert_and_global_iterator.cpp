@@ -16,11 +16,9 @@ TEST(insert_and_global_iterator) {
         std::unordered_map<double, double> shadow_map;
         UnorderedMap<double, double> map(n);
 
-        std::unordered_set<std::pair<double, double>> inserted;
+        std::unordered_set<std::pair<double, double>> shadow_inserted_pairs;
 
         for (auto const & pair : pairs) {
-            inserted.insert(pair);
-
             std::pair<const double, double> to_insert(pair);
             auto [it, inserted] = shadow_map.insert(to_insert);
             
@@ -37,28 +35,18 @@ TEST(insert_and_global_iterator) {
             ASSERT_EQ(pair.first, ret.first->first);
         }
 
-        // Traverse globally through our map, seeing if the value exists in shadow_map
-        for (iter it = map.begin(); it != map.end(); it++) {
-            auto found = shadow_map.find(it->first);
-
-            tdbg << "Value with key " << it->first << " should not exist in your map.";
-            ASSERT_TRUE(found != shadow_map.end());
-            
-            tdbg << "Key " << it->first << " has wrong value " << it->second;
-            ASSERT_EQ(found->second, it->second);
-        }
-
-        // Traverse globally through shadow_map, seeing if the value exists in our map (with set of keys, because find not done)
+        // Traverse globally through shadow map, as we know each pair here was properly inserted
         for (auto it = shadow_map.begin(); it != shadow_map.end(); it++) {
             auto pair = std::make_pair(it->first, it->second);
-            bool is_found = inserted.find(pair) != inserted.end();
-
-            tdbg << "Value with key " << it->first << " should exist, could not be found in your map";
-            ASSERT_TRUE(is_found);
-
-            tdbg << "Key " << it->first << " exists, but has wrong value " << it->second;
-            ASSERT_EQ(it->second, pair.second);
+            shadow_inserted_pairs.insert(pair);
         }
 
+        // Make sure everything in our map is in the other map.
+        for (iter it = map.begin(); it != map.end(); it++) {
+            bool found = shadow_inserted_pairs.find(std::make_pair(it->first, it->second)) != shadow_inserted_pairs.end();
+
+            tdbg << "Value with key " << it->first << " and value " << it->second << " should not exist in your map.";
+            ASSERT_TRUE(found);
+        }
     }
 }
