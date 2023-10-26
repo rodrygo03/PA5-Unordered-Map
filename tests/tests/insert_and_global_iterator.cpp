@@ -16,7 +16,7 @@ TEST(insert_and_global_iterator) {
         std::unordered_map<double, double> shadow_map;
         UnorderedMap<double, double> map(n);
 
-        std::unordered_set<std::pair<double, double>> shadow_inserted_pairs;
+        std::unordered_set<std::pair<double, double>> map_inserted_pairs;
 
         for (auto const & pair : pairs) {
             std::pair<const double, double> to_insert(pair);
@@ -35,18 +35,32 @@ TEST(insert_and_global_iterator) {
             ASSERT_EQ(pair.first, ret.first->first);
         }
 
-        // Traverse globally through shadow map, as we know each pair here was properly inserted
+        // These store the number of iterations you make below. They should be equal.
+        size_t your_iterations = 0;
+        size_t shadow_iterations = 0;
+
+        // Traverse through our map, and add all values found to a set.
+        for (iter it = map.begin(); it != map.end(); it++) {
+            auto pair = std::make_pair(it->first, it->second);
+            map_inserted_pairs.insert(pair);
+
+            your_iterations++;
+        }
+
+        // Traverse globally through shadow map, checking that all values found here are also found in your map.
         for (auto it = shadow_map.begin(); it != shadow_map.end(); it++) {
             auto pair = std::make_pair(it->first, it->second);
-            shadow_inserted_pairs.insert(pair);
-        }
 
-        // Make sure everything in our map is in the other map.
-        for (iter it = map.begin(); it != map.end(); it++) {
-            bool found = shadow_inserted_pairs.find(std::make_pair(it->first, it->second)) != shadow_inserted_pairs.end();
+            // Is the pair in shadow map in our set of your map pairs?
+            bool found = map_inserted_pairs.find(pair) != map_inserted_pairs.end();
 
-            tdbg << "Value with key " << it->first << " and value " << it->second << " should not exist in your map.";
+            tdbg << "Value with key " << it->first << " and value " << it->second << " was not found in your map.";
             ASSERT_TRUE(found);
+
+            shadow_iterations++;
         }
+
+        // Your iterations and the shadow map iterations should be the same
+        ASSERT_EQ(shadow_iterations, your_iterations);
     }
 }
