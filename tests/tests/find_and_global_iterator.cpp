@@ -21,30 +21,42 @@ TEST(find_and_global_iterator) {
             std::pair<const double, double> to_insert(pair);
             auto [shadow_it, inserted] = shadow_map.insert(to_insert);
 
-            std::pair<iter, bool> ret;
+            std::pair<iter, bool> your_insert_ret;
 
             {
                 Memhook mh;
-                ret = map.insert(to_insert);
+                your_insert_ret = map.insert(to_insert);
                 ASSERT_EQ(inserted, mh.n_allocs());
                 ASSERT_EQ(0ULL, mh.n_frees());
             }
 
             // Insert Testing
-            ASSERT_EQ(inserted, ret.second);
+            ASSERT_EQ(inserted, your_insert_ret.second);
             ASSERT_EQ(shadow_map.size(), map.size());
-            ASSERT_EQ(pair.first, ret.first->first);
+            ASSERT_EQ(pair.first, your_insert_ret.first->first);
 
             // Find Testing
-            auto find_ret = map.find(pair.first);
 
-            ASSERT_EQ(!inserted, find_ret == map.end());
+            // If the map.insert(...) failed, there is nothing to find (your_insert_ret.second == false)
+            // and you should return an iterator to nullptr
+            iter your_find_ret = map.find(pair.first);
 
-            ASSERT_EQ(&(*find_ret), &(*ret.first));
+            if (your_insert_ret.second) {
+                // The iterator you return in find should be the same as the one you inserted
+                ASSERT_EQ(&(*your_insert_ret.first), &(*your_find_ret));
 
-            // Make sure [key, value]'s pointed to by ret_found are correct as well
-            ASSERT_EQ(find_ret->first, pair.first);
-            ASSERT_EQ(find_ret->second, pair.second);
+                // Make sure [key, value]'s pointed to by your_find_ret are correct compared to what was inserted.
+                double your_insert_key = your_insert_ret.first->first;
+                double your_insert_val = your_insert_ret.first->second;
+
+                ASSERT_EQ(your_insert_key, your_find_ret->first);
+                ASSERT_EQ(your_insert_val, your_find_ret->second);
+            }
+            else {
+                // If the element failed to insert, the iterators returned by your insert and find should be nullptr
+                ASSERT_TRUE(map.end() == your_insert_ret.first);
+                ASSERT_TRUE(map.end() == your_find_ret);
+            }
         }
 
         // Test for finding a value that was not inserted, should be null and assumes t.fill for previous pairs includes negatives
