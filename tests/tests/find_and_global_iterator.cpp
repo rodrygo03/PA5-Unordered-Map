@@ -36,11 +36,15 @@ TEST(find_and_global_iterator) {
             ASSERT_EQ(pair.first, ret.first->first);
 
             // Find Testing
-            auto ret_found = map.find(pair.first);
+            auto find_ret = map.find(pair.first);
 
-            ASSERT_EQ(!inserted, ret_found == map.end());
+            ASSERT_EQ(!inserted, find_ret == map.end());
 
-            ASSERT_EQ(&(*ret_found), &(*ret.first));
+            ASSERT_EQ(&(*find_ret), &(*ret.first));
+
+            // Make sure [key, value]'s pointed to by ret_found are correct as well
+            ASSERT_EQ(find_ret->first, pair.first);
+            ASSERT_EQ(find_ret->second, pair.second);
         }
 
         // Test for finding a value that was not inserted, should be null and assumes t.fill for previous pairs includes negatives
