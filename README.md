@@ -12,11 +12,11 @@ In this assignment, you will be parodying [`std::unordered_map`](https://en.cppr
 - [Implement Unordered Map](#implement-unordered-map)
 
     - [Implement the following functions](#implement-the-following-functions)
-    
+
 - [Implement the Unordered Map's Iterator](#implement-the-unordered-maps-iterator)
 
 - [Implement the Unordered Map's Local Iterator](#implement-the-unordered-maps-local-iterator)
-    
+
 - [Implement two hashing algorithms](#implement-two-hashing-algorithms)
 
 - [Further Reading](#further-reading)
@@ -454,7 +454,9 @@ iterator find(const Key & key);
 
 **Time Complexity:** Average case: *O(1)*, Worst case: *O(`size()`)*
 
-**Test Names:** 
+**Test Names:** *find_and_global_iterator*
+
+**Requirements:** *insert_and_global_iterator* and its required tests should pass at this point.
 
 **Link:** https://en.cppreference.com/w/cpp/container/unordered_map/find
 
