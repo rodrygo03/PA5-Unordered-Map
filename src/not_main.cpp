@@ -162,7 +162,7 @@ class AnimalDistribution {
 
 constexpr size_t N_SAMPLE_HASHES = 5;
 
-int main() {
+int not_main() {
     fs::path data_files = fs::path("..") / "data_files";
 
     fs::path animals = data_files / "animals.txt";
