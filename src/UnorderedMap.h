@@ -79,7 +79,7 @@ class UnorderedMap {
         ~basic_iterator() = default;
         basic_iterator &operator=(const basic_iterator &) = default;
         basic_iterator &operator=(basic_iterator &&) = default;
-        reference operator*() const { return _ptr->val; }   // // 
+        reference operator*() const { return _ptr->val;}   // // 
         pointer operator->() const { return &(_ptr->val);}  // //
         basic_iterator& operator++() {// // 
             if (_ptr->next != nullptr)  {
@@ -229,8 +229,9 @@ public:
 
     UnorderedMap(const UnorderedMap & other) { /* TODO */
         _bucket_count = other._bucket_count;
-        _size = other._size;
+        _size = 0;
         _hash = other._hash;
+        _head = nullptr;
         _equal = other._equal;
         
         _buckets = new HashNode*[_bucket_count]();
@@ -242,12 +243,13 @@ public:
     }
 
     UnorderedMap(UnorderedMap && other) { /* TODO */ 
-        _bucket_count = other._bucket_count;
-        _size = other._size;
         _hash = other._hash;
         _equal = other._equal;
+        _head = other._head;
+        _size = other._size;
+        _bucket_count = other._bucket_count;
+        _head = other._head;
         _move_content(other, *this);
-        // other._bucket_count = 0;
         other._head = nullptr;
         other._size = 0;
     }
@@ -255,13 +257,14 @@ public:
     UnorderedMap & operator=(const UnorderedMap & other) { 
         if (this == &other)  {
             return *this;
-        }
-        delete this;
+        }   
+        this->clear();
+        delete[] _buckets;
         _bucket_count = other._bucket_count;
-        _size = other._size;
+        _size = 0;
         _hash = other._hash;
+        _head = nullptr;
         _equal = other._equal;
-        
         _buckets = new HashNode*[_bucket_count]();
         for (size_type i=0; i<_bucket_count; i++)  {
             for (local_iterator j=other.cbegin(i); j!=other.cend(i); j++) {
@@ -275,13 +278,15 @@ public:
         if (this == &other)  {
             return *this;
         }
-        delete this;
-        _bucket_count = other._bucket_count;
-        _size = other._size;
+        this->clear();
+        delete[] _buckets;
         _hash = other._hash;
         _equal = other._equal;
+        _head = other._head;
+        _size = other._size;
+        _bucket_count = other._bucket_count;
+        _head = other._head;
         _move_content(other, *this);
-
         other._head = nullptr;
         other._size = 0;
         return *this;
@@ -297,8 +302,6 @@ public:
             i++;
             delete n;
         }
-        //delete[] _buckets;
-        //_buckets = nullptr;
         _size = 0;
     }
 
@@ -325,11 +328,6 @@ public:
         for (local_iterator i=this->begin(n); i!=this->end(n); i++)    {
             s++;
         }
-        // HashNode* p = _buckets[n];
-        // while (p != nullptr)    {
-        //     s++;
-        //     p = p->next;
-        // }
         return s;
     }
 
@@ -363,8 +361,7 @@ public:
     }
 
     T& operator[](const Key & key) { /* TODO */ 
-        /// ????
-        HashNode*& f = _find(key);
+        HashNode* f = _find(key);
         if (f != nullptr)   {
             return f->val.second;
         }
@@ -374,7 +371,94 @@ public:
         return newnode->val.second;
     }
 
-    iterator erase(iterator pos) { /* TODO */ }
+    local_iterator last_e_in_bucket(size_t index)   {
+        local_iterator i(index);
+        while (i->_node != nullptr) {
+            i++;
+        }
+        return i;
+    }
+
+    iterator erase(iterator pos) { /* TODO */ 
+        // this->_size--;
+        // iterator curr = iterator(pos._map, _buckets[_bucket(*pos)]);
+        // if (curr == pos)    {
+        //     _buckets[_bucket(*pos)] = pos._ptr->next;
+        //     iterator temp(pos._map, _buckets[_bucket(*pos)]);
+        //     delete pos._ptr;
+        //     return temp;
+        // }
+        // while (curr._ptr->next != pos._ptr)  {
+        //     curr++;
+        // }
+        // curr._ptr->next = pos._ptr->next;
+        // delete pos._ptr;
+        // return iterator(curr._map, curr._ptr->next);
+    
+        // if (pos == this->end()) {
+        //     return this->end();
+        // }
+        // iterator curr = iterator(pos._map, _buckets[_bucket(*pos)]);
+        // key_type me = pos._ptr->next->val.first;
+        // if (curr == pos)    {
+        //     _buckets[_bucket(*pos)] = pos._ptr->next;
+        //     delete pos._ptr;
+        //     this->_size--;
+        //     return find(me);  
+        // }
+        // while (curr._ptr->next != pos._ptr)  {
+        //     curr++;
+        // }
+        // curr._ptr->next = pos._ptr->next;
+        // delete pos._ptr;
+        // this->_size--;
+        // return find(me);
+
+        // _size--;
+        // iterator temp(pos._map, pos._ptr);
+        // temp++;
+        // if (_head == pos._ptr)  {
+        //     _buckets[_bucket(_head->val)] = temp._ptr;
+        //     _head = temp._ptr;
+        //     delete pos._ptr;
+        //     return temp;
+        // }
+        // iterator curr = iterator(pos._map, _buckets[_bucket(*pos)]);
+        // if (curr == pos)    {
+        //     //curr._ptr->next = temp._ptr;
+        //     _buckets[_bucket(*pos)] = temp._ptr;
+        //     // delete pos._ptr;
+        //     // return temp;
+        // }
+        // while (curr._ptr->next != pos._ptr && curr != pos)  {
+        //     curr++;
+        // }
+        // curr._ptr->next = temp._ptr;
+        // delete pos._ptr;
+        // return temp;
+        
+        // if _head, _head = next, delete old head
+        // if head of bucked, set [] tp next, set[-1] to next
+        // if within a list, set before pos, to after pos
+
+        iterator next(this, pos._ptr);
+        next++;
+        if (pos._ptr == _head)  {
+            _head = pos._ptr->next;
+            delete pos._ptr;
+            return next;
+        }
+
+        if (pos._ptr == _buckets[_bucket(pos._ptr->val.first)]) {
+            _buckets[_bucket(pos._ptr->val.first)] = next._ptr;
+            iterator before = last_e_in_bucket(_bucket(pos._ptr->val.first -1));
+            before._ptr->next = next;
+            return next;
+        }
+
+        
+
+    }
 
     size_type erase(const Key & key) { /* TODO */ }
 
