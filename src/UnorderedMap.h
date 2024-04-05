@@ -171,7 +171,7 @@ private:
         return _range_hash(code, this->_bucket_count);
     }
 
-    HashNode*& _find(size_type code, size_type bucket, const Key & key) {         
+    HashNode* _find(size_type code, size_type bucket, const Key & key) {
         HashNode* p = _buckets[bucket];
         while (p != nullptr)    {
             if (_equal(p->val.first, key))  {
@@ -182,15 +182,14 @@ private:
         return p;
     }
 
-    HashNode*& _find(const Key & key) { /* TODO */ 
+    HashNode* _find(const Key & key) { /* TODO */ 
         size_t code = _hash(key);
         size_t bucket = _bucket(key);
         return _find(code, bucket, key);
     }
 
-    HashNode * _insert_into_bucket(size_type bucket, value_type && value) { /* TODO */ 
-        HashNode*& c = _buckets[bucket];
-        _buckets[bucket] = new HashNode(std::move(value), c);
+    HashNode* _insert_into_bucket(size_type bucket, value_type && value) { /* TODO */ 
+        _buckets[bucket] = new HashNode(std::move(value), _buckets[bucket]);
         _size++;
         if (_head == nullptr || bucket <= _bucket(_head->val))   {
             _head = _buckets[bucket];
@@ -216,13 +215,6 @@ public:
     }
 
     ~UnorderedMap() {
-        // iterator i = this->begin();
-        // while (i != this->end()) {
-        //     HashNode* n = i._ptr;
-        //     i++;
-        //     delete n;
-        // }
-        // delete[] _buckets;
         clear();
         delete[] _buckets;
     }
@@ -337,7 +329,7 @@ public:
 
 
     std::pair<iterator, bool> insert(const value_type & value) { /* TODO */ 
-        HashNode*& f = _find(value.first);
+        HashNode* f = _find(value.first);
         if (f != nullptr)   {
             return (std::make_pair((iterator(this, f)), false));
         }
@@ -347,7 +339,7 @@ public:
     } 
 
     std::pair<iterator, bool> insert(value_type && value) { 
-        HashNode*& f = _find(value.first);
+        HashNode* f = _find(value.first);
         if (f != nullptr)   {
             return (std::make_pair ((iterator(this, f)), false));
         }
@@ -365,102 +357,55 @@ public:
         if (f != nullptr)   {
             return f->val.second;
         }
-        size_t buc = _bucket(key);
         insert(std::make_pair(key, T()));
         HashNode* newnode = _find(key);
         return newnode->val.second;
     }
 
-    local_iterator last_e_in_bucket(size_t index)   {
-        local_iterator i(index);
-        while (i->_node != nullptr) {
-            i++;
+    HashNode* next(iterator pos)   {
+        local_iterator n(_buckets[_bucket(pos._ptr->val.first)]);
+        while (n._node != pos._ptr)   {
+            n++;
         }
-        return i;
+        n++;
+        return n._node;
     }
 
     iterator erase(iterator pos) { /* TODO */ 
-        // this->_size--;
-        // iterator curr = iterator(pos._map, _buckets[_bucket(*pos)]);
-        // if (curr == pos)    {
-        //     _buckets[_bucket(*pos)] = pos._ptr->next;
-        //     iterator temp(pos._map, _buckets[_bucket(*pos)]);
-        //     delete pos._ptr;
-        //     return temp;
-        // }
-        // while (curr._ptr->next != pos._ptr)  {
-        //     curr++;
-        // }
-        // curr._ptr->next = pos._ptr->next;
-        // delete pos._ptr;
-        // return iterator(curr._map, curr._ptr->next);
-    
-        // if (pos == this->end()) {
-        //     return this->end();
-        // }
-        // iterator curr = iterator(pos._map, _buckets[_bucket(*pos)]);
-        // key_type me = pos._ptr->next->val.first;
-        // if (curr == pos)    {
-        //     _buckets[_bucket(*pos)] = pos._ptr->next;
-        //     delete pos._ptr;
-        //     this->_size--;
-        //     return find(me);  
-        // }
-        // while (curr._ptr->next != pos._ptr)  {
-        //     curr++;
-        // }
-        // curr._ptr->next = pos._ptr->next;
-        // delete pos._ptr;
-        // this->_size--;
-        // return find(me);
-
-        // _size--;
-        // iterator temp(pos._map, pos._ptr);
-        // temp++;
-        // if (_head == pos._ptr)  {
-        //     _buckets[_bucket(_head->val)] = temp._ptr;
-        //     _head = temp._ptr;
-        //     delete pos._ptr;
-        //     return temp;
-        // }
-        // iterator curr = iterator(pos._map, _buckets[_bucket(*pos)]);
-        // if (curr == pos)    {
-        //     //curr._ptr->next = temp._ptr;
-        //     _buckets[_bucket(*pos)] = temp._ptr;
-        //     // delete pos._ptr;
-        //     // return temp;
-        // }
-        // while (curr._ptr->next != pos._ptr && curr != pos)  {
-        //     curr++;
-        // }
-        // curr._ptr->next = temp._ptr;
-        // delete pos._ptr;
-        // return temp;
-        
-        // if _head, _head = next, delete old head
-        // if head of bucked, set [] tp next, set[-1] to next
-        // if within a list, set before pos, to after pos
-
-        iterator next(this, pos._ptr);
-        next++;
-        if (pos._ptr == _head)  {
-            _head = pos._ptr->next;
+        _size--;
+        iterator global_next(this, pos._ptr); global_next++;
+        local_iterator local_next(next(pos));
+        if (_head == pos._ptr)  {
+            _buckets[_bucket(_head->val.first)] = local_next._node;
+            _head = global_next._ptr;
             delete pos._ptr;
-            return next;
+            return global_next;
         }
 
-        if (pos._ptr == _buckets[_bucket(pos._ptr->val.first)]) {
-            _buckets[_bucket(pos._ptr->val.first)] = next._ptr;
-            iterator before = last_e_in_bucket(_bucket(pos._ptr->val.first -1));
-            before._ptr->next = next;
-            return next;
+        if (pos._ptr == _buckets[_bucket(pos->first)])    {
+            _buckets[_bucket(pos->first)] = local_next._node;
+            delete pos._ptr;
+            return global_next;
         }
 
-        
+        local_iterator curr(_buckets[_bucket(pos->first)]);
+        while (curr._node->next != pos._ptr)    {
+            curr++;
+        }
+        curr._node->next = local_next._node;
+        delete pos._ptr;
+        return global_next;
 
     }
 
-    size_type erase(const Key & key) { /* TODO */ }
+    size_type erase(const Key & key) { /* TODO */ 
+        iterator f = find(key);
+        if (f == this->end())   {
+            return 0;
+        }
+        erase(f);
+        return 1;
+    }
 
     template<typename KK, typename VV>
     friend void print_map(const UnorderedMap<KK, VV> & map, std::ostream & os);
