@@ -362,19 +362,10 @@ public:
         return newnode->val.second;
     }
 
-    HashNode* next(iterator pos)   {
-        local_iterator n(_buckets[_bucket(pos._ptr->val.first)]);
-        while (n._node != pos._ptr)   {
-            n++;
-        }
-        n++;
-        return n._node;
-    }
-
     iterator erase(iterator pos) { /* TODO */ 
         _size--;
         iterator global_next(this, pos._ptr); global_next++;
-        local_iterator local_next(next(pos));
+        local_iterator local_next(pos._ptr->next);
         if (_head == pos._ptr)  {
             _buckets[_bucket(_head->val.first)] = local_next._node;
             _head = global_next._ptr;
